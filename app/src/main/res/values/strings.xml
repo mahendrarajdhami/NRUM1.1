@@ -6,4 +6,11 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_web_view">WebView</string>
+    <string name="title_activity_nrum_web_view">Website</string>
+    <string name="title_activity_news_list">News</string>
+    <string name="ic_archive_24dp">News</string>
+    <string name="ic_folder_24dp">Events</string>
+    <string name="ic_downloads_24dp">Docs</string>
+    <string name="welcome">Welcome To :</string>
+    <string name="nepal_rajdhami_utthan_mancha">Nepal Rajdhami Utthan Mancha</string>
 </resources>

@@ -24,4 +24,39 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         />
+
+    <LinearLayout android:id="@+id/buttonGroup"
+        android:layout_below="@+id/slider"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button android:id="@+id/Button1"
+            android:layout_below="@+id/ButtonAlert"
+            android:text="@string/ic_archive_24dp"
+            android:drawableLeft="@drawable/ic_news_24dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_alignParentBottom="true">
+        </Button>
+        <Button android:id="@+id/Button2"
+            android:layout_alignRight="@id/Button1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ic_folder_24dp"
+            android:drawableLeft="@drawable/ic_events_24dp"
+            android:layout_alignParentBottom="true">
+        </Button>
+        <Button android:id="@+id/Button3"
+            android:layout_alignRight="@id/Button2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ic_downloads_24dp"
+            android:drawableLeft="@drawable/ic_docs_24dp"
+            android:layout_alignParentBottom="true">
+        </Button>
+    </LinearLayout>
 </RelativeLayout>
