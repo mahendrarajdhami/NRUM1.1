@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
@@ -121,27 +122,58 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         switch ( id ){
-            case R.id.nav_web :
+            case R.id.nav_web : {
+
                 Log.d(msg, "WebView Menu is clicked");
                 Intent intent = new Intent(MainActivity.this,NrumWebViewActivity.class);
                 startActivity(intent);
                 break;
-            case R.id.nav_home :
-                Log.d(msg, "nav_home Menu is clicked");
+            }
+            case R.id.nav_news :{
+
+                Log.d(msg, "nav_news Menu is clicked");
+                Intent intent = new Intent(MainActivity.this,NewsListActivity.class);
+                startActivity(intent);
 
                 break;
-            case R.id.nav_gallery :
+            }
+            case R.id.nav_gallery :{
+
                 Log.d(msg, "nav_gallery Menu is clicked");
 
                 break;
-            case R.id.nav_events :
+            }
+            case R.id.nav_events :{
+
                 Log.d(msg, "nav_events Menu is clicked");
 
                 break;
+            }
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    // click events for button
+    public void openNewsList(View view)
+    {
+        Intent intent = new Intent(MainActivity.this, NewsListActivity.class);
+        startActivity(intent);
+    }
+
+    public void openEventList(View view)
+    {
+        Intent intent = new Intent(MainActivity.this, NewsListActivity.class);
+        startActivity(intent);
+    }
+
+    public void openDocList(View view)
+    {
+        Intent intent = new Intent(MainActivity.this, NewsListActivity.class);
+        startActivity(intent);
+    }
+
+
 }

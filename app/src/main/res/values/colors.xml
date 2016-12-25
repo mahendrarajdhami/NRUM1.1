@@ -6,4 +6,13 @@
     <color name="colorNrum">#c8fb5ec9</color>
     <color name="colorStatusBar">#FB5EC9</color>
     <color name="colorActionBar">#c8fb5ec9</color>
+
+    // for list view using volley
+    <color name="genre">#666666</color>
+    <color name="year">#888888</color>
+    <color name="list_divider">#d9d9d9</color>
+    <color name="list_row_start_color">#ffffff</color>
+    <color name="list_row_end_color">#ffffff</color>
+    <color name="list_row_hover_start_color">#ebeef0</color>
+    <color name="list_row_hover_end_color">#ebeef0</color>
 </resources>
