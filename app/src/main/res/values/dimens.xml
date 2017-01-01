@@ -12,4 +12,5 @@
     <dimen name="rating">15dip</dimen>
     <dimen name="genre">13dip</dimen>
     <dimen name="year">12dip</dimen>
+    <dimen name="signin_button_padding">20dp</dimen>
 </resources>

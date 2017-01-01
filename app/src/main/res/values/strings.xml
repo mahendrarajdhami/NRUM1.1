@@ -14,4 +14,6 @@
     <string name="welcome">Welcome To :</string>
     <string name="nepal_rajdhami_utthan_mancha">Nepal Rajdhami Utthan Mancha</string>
     <string name="btn_news">News</string>
+    <string name="loading">loading</string>
+    <string name="signed_in_fmt">SignedInFragment</string>
 </resources>

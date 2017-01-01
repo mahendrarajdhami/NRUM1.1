@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "891142423918",
+    "project_id": "firebase-nrum"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:891142423918:android:00ec089cf68dcdf9",
+        "android_client_info": {
+          "package_name": "org.nrum.nrum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "891142423918-k0s1imhhat7ckgi2333d1k7nf05oeigc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.nrum.nrum",
+            "certificate_hash": "DA39A3EE5E6B4B0D3255BFEF95601890AFD80709"
+          }
+        },
+        {
+          "client_id": "891142423918-ck5kai238a2bk9l3alub1aj0oq1svco8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3qqhMCDUYMSKYh8k5ALP6c_iI21rTN7Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
