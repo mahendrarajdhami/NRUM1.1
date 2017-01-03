@@ -1,6 +1,7 @@
 package org.nrum.nrum;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -10,14 +11,13 @@ import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 @SuppressLint("SetJavaScriptEnabled")
 public class NrumWebViewActivity extends AppCompatActivity {
     String msg = "LogInfo : ";
     WebView webview;
-    ProgressBar mProgress;
+    ProgressDialog pDialog;
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -31,7 +31,8 @@ public class NrumWebViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nrum_web_view);
         webview =(WebView)findViewById(R.id.NrumWebView);
-        mProgress = (ProgressBar)findViewById(R.id.progressBar);
+        pDialog = new ProgressDialog(this);
+        pDialog.setMessage("Loading...");
 
         if (CheckNetwork.isInternetAvailable(NrumWebViewActivity.this)){
             webview.getSettings().setJavaScriptEnabled(true);
@@ -42,14 +43,13 @@ public class NrumWebViewActivity extends AppCompatActivity {
             webview.setWebViewClient(new MyWebViewClient());
             webview.setWebChromeClient(new WebChromeClient(){
                 public void onProgressChanged(WebView view, int progress) {
-                    mProgress.setProgress(progress);
+                    pDialog.setProgress(progress);
                     Log.d(msg, "progress=" + progress);
                     if (progress == 100) {
-                        Log.d(msg,"Showing Progressbar");
-                        mProgress.setVisibility(View.GONE);
+                        pDialog.show();
 
                     } else {
-                        mProgress.setVisibility(View.VISIBLE);
+                        hidePDialog();
 
                     }
                 }
@@ -74,5 +74,12 @@ public class NrumWebViewActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void hidePDialog() {
+        if (pDialog != null) {
+            pDialog.dismiss();
+            pDialog = null;
+        }
     }
 }
