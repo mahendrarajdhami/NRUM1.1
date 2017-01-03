@@ -31,6 +31,10 @@
             android:id="@+id/nav_wordbank"
             android:icon="@drawable/ic_menu_calendar"
             android:title="Word Bank (शब्द कोष)" />
+        <item
+            android:id="@+id/nav_signin"
+            android:icon="@drawable/ic_menu_signin"
+            android:title="SignIn" />
     </group>
 
     <item android:title="Other Links">
@@ -39,10 +43,6 @@
                 android:id="@+id/nav_web"
                 android:icon="@drawable/ic_menu_web"
                 android:title="Website" />
-            <item
-                android:id="@+id/nav_signin"
-                android:icon="@drawable/ic_menu_signin"
-                android:title="SignIn" />
         </menu>
     </item>
 

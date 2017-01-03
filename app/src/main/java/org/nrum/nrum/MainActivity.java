@@ -151,8 +151,8 @@ public class MainActivity extends AppCompatActivity
             }
             case R.id.nav_signin :{
                 Log.d(msg, "nav_signin Menu is clicked");
-                /*Intent intent = new Intent(MainActivity.this,SignInActivity.class);
-                startActivity(intent);*/
+                Intent intent = new Intent(MainActivity.this,SignInActivity.class);
+                startActivity(intent);
 
                 break;
             }
