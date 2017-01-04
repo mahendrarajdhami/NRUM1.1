@@ -2,13 +2,12 @@ package org.nrum.nrum;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
@@ -23,6 +22,20 @@ public class NrumWebViewActivity extends AppCompatActivity {
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
             return true;
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            pDialog.show();
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+
+            super.onPageFinished(view, url);
+            if (pDialog != null && pDialog.isShowing()) {
+                pDialog.dismiss();
+            }
         }
     }
 
@@ -41,19 +54,6 @@ public class NrumWebViewActivity extends AppCompatActivity {
             webview.getSettings().setUseWideViewPort(true);
             webview.getSettings().setBuiltInZoomControls(true);
             webview.setWebViewClient(new MyWebViewClient());
-            webview.setWebChromeClient(new WebChromeClient(){
-                public void onProgressChanged(WebView view, int progress) {
-                    pDialog.setProgress(progress);
-                    Log.d(msg, "progress=" + progress);
-                    if (progress == 100) {
-                        pDialog.show();
-
-                    } else {
-                        hidePDialog();
-
-                    }
-                }
-            });
             webview.loadUrl("https://developer.android.com/guide/index.html");
         } else {
             //no connection
@@ -74,12 +74,5 @@ public class NrumWebViewActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
-
-    private void hidePDialog() {
-        if (pDialog != null) {
-            pDialog.dismiss();
-            pDialog = null;
-        }
     }
 }
