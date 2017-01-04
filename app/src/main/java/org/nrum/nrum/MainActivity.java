@@ -143,10 +143,9 @@ public class MainActivity extends AppCompatActivity
 
                 break;
             }
-            case R.id.nav_events :{
-
-                Log.d(msg, "nav_events Menu is clicked");
-
+            case R.id.nav_calendar :{
+                Intent intent = new Intent(MainActivity.this,CalendarActivity.class);
+                startActivity(intent);
                 break;
             }
             case R.id.nav_signin :{
