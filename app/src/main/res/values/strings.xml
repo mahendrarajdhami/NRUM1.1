@@ -16,5 +16,5 @@
     <string name="btn_news">News</string>
     <string name="loading">loading</string>
     <string name="signed_in_fmt">SignedInFragment</string>
-    <string name="title_activity_calendar">CalendarActivity</string>
+    <string name="title_activity_calendar">Calendar</string>
 </resources>
