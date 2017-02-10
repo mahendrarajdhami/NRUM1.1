@@ -15,18 +15,34 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.nrum.app.AppController;
+import org.nrum.model.Banner;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private SliderLayout mDemoSlider;
     String msg = "LogInfo : ";
+
+    // Banners json url
+    private static final String bannerUrl = "http://192.168.0.100/bs.dev/nrum/dataProvider/bannerApi/lists";
+    private List<Banner> bannerList = new ArrayList<Banner>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,30 +60,46 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        // HashMap for Banner image and description
+        final HashMap<String,String> url_maps = new HashMap<String, String>();
 
-        // for daimajiya image slider (https://github.com/daimajia/AndroidImageSlider)
-        HashMap<String,String> url_maps = new HashMap<String, String>();
-        url_maps.put("Hannibal", "http://static2.hypable.com/wp-content/uploads/2013/12/hannibal-season-2-release-date.jpg");
-        url_maps.put("Big Bang Theory", "http://tvfiles.alphacoders.com/100/hdclearart-10.png");
+        // Creating volley request obj for Banner
+        JsonArrayRequest bannerReq = new JsonArrayRequest(bannerUrl,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        Log.d(msg, response.toString());
+                        // Parsing json
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject obj = response.getJSONObject(i);
+                                String url = "http://192.168.0.100/bs.dev/nrum/uploads/company_1/banner/";
+                                String imageName = obj.getString("pc_image");
+                                String imageUrl = url.concat(imageName);
+                                String description = obj.getString("description");
+                                TextSliderView textSliderView = new TextSliderView(getApplicationContext());
+                                // initialize a SliderLayout
+                                textSliderView
+                                        .description(description)
+                                        .image(imageUrl)
+                                        .setScaleType(BaseSliderView.ScaleType.Fit);
+                                //add your extra information
+                                textSliderView.bundle(new Bundle());
+                                mDemoSlider.addSlider(textSliderView);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(msg, "Error: " + error.getMessage());
+            }
+        });
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(bannerReq);
 
-        HashMap<String,Integer> file_maps = new HashMap<String, Integer>();
-        file_maps.put("Morang Adhibeshan 2071",R.drawable.slider1);
-        file_maps.put("Jitya Program 2071",R.drawable.slider2);
-
-        for(String name : file_maps.keySet()){
-            TextSliderView textSliderView = new TextSliderView(this);
-            // initialize a SliderLayout
-            textSliderView
-                    .description(name)
-                    .image(file_maps.get(name))
-                    .setScaleType(BaseSliderView.ScaleType.Fit);
-            //add your extra information
-            textSliderView.bundle(new Bundle());
-            textSliderView.getBundle()
-                    .putString("extra",name);
-
-            mDemoSlider.addSlider(textSliderView);
-        }
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mDemoSlider.setCustomAnimation(new DescriptionAnimation());
@@ -180,6 +212,4 @@ public class MainActivity extends AppCompatActivity
         Intent intent = new Intent(MainActivity.this, NewsListActivity.class);
         startActivity(intent);
     }
-
-
 }

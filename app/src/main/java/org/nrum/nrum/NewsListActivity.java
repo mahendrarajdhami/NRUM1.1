@@ -28,8 +28,9 @@ public class NewsListActivity extends AppCompatActivity {
     // Log tag
     private static final String TAG = NewsListActivity.class.getSimpleName();
 
-    // Movies json url
+    // News json url
     private static final String url = "http://api.androidhive.info/json/movies.json";
+//    private static final String url = "http://192.168.0.100/bs.dev/bcms/dataProvider/newsApi/lists";
     private ProgressDialog pDialog;
     private List<Movie> movieList = new ArrayList<Movie>();
     private ListView listView;
