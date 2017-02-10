@@ -28,11 +28,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.nrum.app.AppController;
-import org.nrum.model.Banner;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -42,7 +39,6 @@ public class MainActivity extends AppCompatActivity
 
     // Banners json url
     private static final String bannerUrl = "http://192.168.0.100/bs.dev/nrum/dataProvider/bannerApi/lists";
-    private List<Banner> bannerList = new ArrayList<Banner>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
