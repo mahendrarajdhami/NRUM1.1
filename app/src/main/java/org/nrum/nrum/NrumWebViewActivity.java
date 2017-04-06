@@ -54,7 +54,7 @@ public class NrumWebViewActivity extends AppCompatActivity {
             webview.getSettings().setUseWideViewPort(true);
             webview.getSettings().setBuiltInZoomControls(true);
             webview.setWebViewClient(new MyWebViewClient());
-            webview.loadUrl("https://developer.android.com/guide/index.html");
+            webview.loadUrl("http://192.168.0.100/bs.dev/nrum");
         } else {
             //no connection
             Toast toast = Toast.makeText(NrumWebViewActivity.this, "No Internet Connection", Toast.LENGTH_LONG);

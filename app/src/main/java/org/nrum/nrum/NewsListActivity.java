@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
@@ -19,7 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.nrum.adapter.CustomListAdapter;
 import org.nrum.app.AppController;
-import org.nrum.model.Movie;
+import org.nrum.model.News;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +30,10 @@ public class NewsListActivity extends AppCompatActivity {
     private static final String TAG = NewsListActivity.class.getSimpleName();
 
     // News json url
-    private static final String url = "http://api.androidhive.info/json/movies.json";
-//    private static final String url = "http://192.168.0.100/bs.dev/bcms/dataProvider/newsApi/lists";
+//    private static final String url = "http://api.androidhive.info/json/newss.json";
+    private static final String url = "http://192.168.0.100/bs.dev/nrum/dataProvider/newsApi/lists";
     private ProgressDialog pDialog;
-    private List<Movie> movieList = new ArrayList<Movie>();
+    private List<News> newsList = new ArrayList<News>();
     private ListView listView;
     private CustomListAdapter adapter;
 
@@ -41,7 +42,7 @@ public class NewsListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_list);
         listView = (ListView) findViewById(R.id.list);
-        adapter = new CustomListAdapter(this, movieList);
+        adapter = new CustomListAdapter(this, newsList);
         listView.setAdapter(adapter);
 
         pDialog = new ProgressDialog(this);
@@ -72,11 +73,12 @@ public class NewsListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Creating volley request obj
-        JsonArrayRequest movieReq = new JsonArrayRequest(url,
+        JsonArrayRequest newsReq = new JsonArrayRequest(url,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
                         Log.d(TAG, response.toString());
+                        Log.d(TAG, "mahen");
                         hidePDialog();
 
                         // Parsing json
@@ -84,23 +86,17 @@ public class NewsListActivity extends AppCompatActivity {
                             try {
 
                                 JSONObject obj = response.getJSONObject(i);
-                                Movie movie = new Movie();
-                                movie.setTitle(obj.getString("title"));
-                                movie.setThumbnailUrl(obj.getString("image"));
-                                movie.setRating(((Number) obj.get("rating"))
-                                        .doubleValue());
-                                movie.setYear(obj.getInt("releaseYear"));
+                                News news = new News();
+                                JSONObject  objTitle = new JSONObject(obj.getString("news_title"));
+                                JSONObject  objDetail = new JSONObject(obj.getString("details"));
+                                String tTitle = Html.fromHtml(objTitle.getString("1")).toString();
+                                String title = tTitle.substring(0,10);
+                                String detail = Html.fromHtml(objDetail.getString("1")).toString();
 
-                                // Genre is json array
-                                JSONArray genreArry = obj.getJSONArray("genre");
-                                ArrayList<String> genre = new ArrayList<String>();
-                                for (int j = 0; j < genreArry.length(); j++) {
-                                    genre.add((String) genreArry.get(j));
-                                }
-                                movie.setGenre(genre);
-
-                                // adding movie to movies array
-                                movieList.add(movie);
+                                news.setThumbnailUrl(obj.getString("banner_image"));
+                                news.setTitle(title);
+                                news.setDetail(detail);
+                                newsList.add(news);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -122,7 +118,7 @@ public class NewsListActivity extends AppCompatActivity {
         });
 
         // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(movieReq);
+        AppController.getInstance().addToRequestQueue(newsReq);
     }
 
     @Override

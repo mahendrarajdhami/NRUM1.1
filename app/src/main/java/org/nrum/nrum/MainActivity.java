@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -172,15 +173,33 @@ public class MainActivity extends AppCompatActivity
                 break;
             }
             case R.id.nav_calendar :{
-                Intent intent = new Intent(MainActivity.this,CalendarActivity.class);
-                startActivity(intent);
+                /*Intent intent = new Intent(MainActivity.this,CalendarActivity.class);
+                startActivity(intent);*/
+
+                // showing message for now
+                Toast toast = Toast.makeText(MainActivity.this,R.string.under_construction, Toast.LENGTH_LONG);
+                toast.show();
                 break;
             }
             case R.id.nav_signin :{
-                Log.d(msg, "nav_signin Menu is clicked");
+                /*Log.d(msg, "nav_signin Menu is clicked");
                 Intent intent = new Intent(MainActivity.this,SignInActivity.class);
-                startActivity(intent);
+                startActivity(intent);*/
 
+                // showing message for now
+                Toast toast = Toast.makeText(MainActivity.this,R.string.under_construction, Toast.LENGTH_LONG);
+                toast.show();
+                break;
+            }
+
+            case R.id.nav_wordbank :{
+                /*Log.d(msg, "nav_signin Menu is clicked");
+                Intent intent = new Intent(MainActivity.this,SignInActivity.class);
+                startActivity(intent);*/
+
+                // showing message for now
+                Toast toast = Toast.makeText(MainActivity.this,R.string.under_construction, Toast.LENGTH_LONG);
+                toast.show();
                 break;
             }
         }
