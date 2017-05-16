@@ -3,6 +3,7 @@ package org.nrum.app;
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.activeandroid.ActiveAndroid;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
@@ -25,6 +26,9 @@ public class AppController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        // for Active Android
+        ActiveAndroid.initialize(this);
+
         mInstance = this;
     }
 

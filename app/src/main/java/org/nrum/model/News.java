@@ -4,14 +4,14 @@ package org.nrum.model;
  * Created by rajdhami on 12/25/2016.
  */
 public class News {
-    private String title, thumbnailUrl, detail;
+    private String title, featureImage, detail;
 
     public News() {
     }
 
-    public News(String name, String thumbnailUrl, String detail) {
+    public News(String name, String featureImage, String detail) {
         this.title = name;
-        this.thumbnailUrl = thumbnailUrl;
+        this.featureImage = featureImage;
         this.detail = detail;
     }
 
@@ -23,12 +23,12 @@ public class News {
         this.title = name;
     }
 
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
+    public String getFeatureImage() {
+        return featureImage;
     }
 
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
+    public void setFeatureImage(String featureImage) {
+        this.featureImage = featureImage;
     }
 
     public String getDetail() {
@@ -38,12 +38,4 @@ public class News {
     public void setDetail(String detail) {
         this.detail = detail;
     }
-
-    /*public ArrayList<String> getGenre() {
-        return genre;
-    }
-
-    public void setGenre(ArrayList<String> genre) {
-        this.genre = genre;
-    }*/
 }

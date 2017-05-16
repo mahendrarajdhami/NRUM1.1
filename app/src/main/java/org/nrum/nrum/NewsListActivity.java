@@ -6,10 +6,14 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.util.Log;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.activeandroid.ActiveAndroid;
+import com.android.volley.Cache;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -31,7 +35,7 @@ public class NewsListActivity extends AppCompatActivity {
 
     // News json url
 //    private static final String url = "http://api.androidhive.info/json/newss.json";
-    private static final String url = "http://192.168.0.100/bs.dev/nrum/dataProvider/newsApi/lists";
+    private static final String url = "http://192.168.100.2/bs.dev/nrum/dataProvider/newsApi/lists";
     private ProgressDialog pDialog;
     private List<News> newsList = new ArrayList<News>();
     private ListView listView;
@@ -44,6 +48,24 @@ public class NewsListActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list);
         adapter = new CustomListAdapter(this, newsList);
         listView.setAdapter(adapter);
+
+        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?>adapter,View v, int position){
+                ItemClicked item = adapter.getItemAtPosition(position);
+
+                Intent intent = new Intent(Activity.this,destinationActivity.class);
+                //based on item add info to intent
+                startActivity(intent);
+            }
+        });*/
+
+
+
+        RequestQueue mRequestQueue = AppController.getInstance().getRequestQueue();
+
+        Cache cache = AppController.getInstance().getRequestQueue().getCache();
+        Cache.Entry entry = cache.get(url);
 
         pDialog = new ProgressDialog(this);
         // Showing progress dialog before making http request
@@ -72,53 +94,82 @@ public class NewsListActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Creating volley request obj
-        JsonArrayRequest newsReq = new JsonArrayRequest(url,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d(TAG, response.toString());
-                        Log.d(TAG, "mahen");
-                        hidePDialog();
+        if(CheckNetwork.isInternetAvailable(getApplicationContext())) {
+            // Creating volley request obj
+            JsonArrayRequest newsReq = new JsonArrayRequest(url,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            hidePDialog();
+                            // Parsing json
+                            ActiveAndroid.beginTransaction();
+                            for (int i = 0; i < response.length(); i++) {
+                                try {
+                                    JSONObject obj = response.getJSONObject(i);
+                                    News news = new News();
+                                    org.nrum.ormmodel.News ormNews = new org.nrum.ormmodel.News();
+                                    int  newsID = obj.getInt("news_id");
+                                    JSONObject  objTitle = new JSONObject(obj.getString("news_title"));
+                                    JSONObject  objDetail = new JSONObject(obj.getString("details"));
+                                    String  featureImage = obj.getString("feature_image");
 
-                        // Parsing json
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
+                                    String title = Html.fromHtml(objTitle.getString("1")).toString();
+                                    if (title.length()> 50) {
+                                        title = TextUtils.substring(title,0,50).concat("...");
+                                    }
+                                    String detail = Html.fromHtml(objDetail.getString("1")).toString();
+                                    if(detail.length()> 100) {
+                                        detail = TextUtils.substring(detail,0,100).concat("...");
+                                    }
+                                    news.setFeatureImage(featureImage);
+                                    news.setTitle(title);
+                                    news.setDetail(detail);
+                                    newsList.add(news);
 
-                                JSONObject obj = response.getJSONObject(i);
-                                News news = new News();
-                                JSONObject  objTitle = new JSONObject(obj.getString("news_title"));
-                                JSONObject  objDetail = new JSONObject(obj.getString("details"));
-                                String tTitle = Html.fromHtml(objTitle.getString("1")).toString();
-                                String title = tTitle.substring(0,10);
-                                String detail = Html.fromHtml(objDetail.getString("1")).toString();
-
-                                news.setThumbnailUrl(obj.getString("banner_image"));
-                                news.setTitle(title);
-                                news.setDetail(detail);
-                                newsList.add(news);
-
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                    // saving to sqllite database
+                                    ormNews.news_id = newsID;
+                                    ormNews.title = title;
+                                    ormNews.details = detail;
+                                    ormNews.feature_image = featureImage;
+                                    ormNews.save();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
+                            ActiveAndroid.setTransactionSuccessful();
+                            ActiveAndroid.endTransaction();
 
+                            // notifying list adapter about data changes
+                            // so that it renders the list view with updated data
+                            adapter.notifyDataSetChanged();
                         }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    VolleyLog.d(TAG, "Error: " + error.getMessage());
+                    hidePDialog();
+                }
+            });
 
-                        // notifying list adapter about data changes
-                        // so that it renders the list view with updated data
-                        adapter.notifyDataSetChanged();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(TAG, "Error: " + error.getMessage());
-                hidePDialog();
-
+            // Adding request to request queue
+            AppController.getInstance().addToRequestQueue(newsReq);
+        } else {
+            //no connection
+            Toast toast = Toast.makeText(getApplicationContext(), "No Internet Connection", Toast.LENGTH_LONG);
+            toast.show();
+            List<org.nrum.ormmodel.News> ormNewsList = org.nrum.ormmodel.News.getAllNews();
+            for (org.nrum.ormmodel.News item:ormNewsList) {
+                News news = new News();
+                news.setTitle(item.title);
+                news.setDetail(item.details);
+                news.setFeatureImage(item.feature_image);
+                newsList.add(news);
             }
-        });
-
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(newsReq);
+            // notifying list adapter about data changes
+            // so that it renders the list view with updated data
+            adapter.notifyDataSetChanged();
+            hidePDialog();
+        }
     }
 
     @Override
@@ -133,12 +184,4 @@ public class NewsListActivity extends AppCompatActivity {
             pDialog = null;
         }
     }
-
-    /*@Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }*/
-
 }

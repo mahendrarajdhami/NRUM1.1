@@ -70,6 +70,17 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        // for active android
+        <meta-data
+            android:name="AA_DB_NAME"
+            android:value="db_nrum.db" />
+        <meta-data
+            android:name="AA_DB_VERSION"
+            android:value="1" />
+        <meta-data
+            android:name="AA_MODELS"
+            android:value="org.nrum.db_nrum.News, org.nrum.db_nrum.Banner" />
+
         <activity
             android:name=".CalendarActivity"
             android:label="@string/title_activity_calendar"

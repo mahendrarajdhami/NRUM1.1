@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
     String msg = "LogInfo : ";
 
     // Banners json url
-    private static final String bannerUrl = "http://192.168.0.100/bs.dev/nrum/dataProvider/bannerApi/lists";
+    private static final String bannerUrl = "http://192.168.100.2/bs.dev/nrum/dataProvider/bannerApi/lists";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,42 +60,53 @@ public class MainActivity extends AppCompatActivity
         // HashMap for Banner image and description
         final HashMap<String,String> url_maps = new HashMap<String, String>();
 
-        // Creating volley request obj for Banner
-        JsonArrayRequest bannerReq = new JsonArrayRequest(bannerUrl,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        Log.d(msg, response.toString());
-                        // Parsing json
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject obj = response.getJSONObject(i);
-                                String url = "http://192.168.0.100/bs.dev/nrum/uploads/company_1/banner/";
-                                String imageName = obj.getString("pc_image");
-                                String imageUrl = url.concat(imageName);
-                                String description = obj.getString("description");
-                                TextSliderView textSliderView = new TextSliderView(getApplicationContext());
-                                // initialize a SliderLayout
-                                textSliderView
-                                        .description(description)
-                                        .image(imageUrl)
-                                        .setScaleType(BaseSliderView.ScaleType.Fit);
-                                //add your extra information
-                                textSliderView.bundle(new Bundle());
-                                mDemoSlider.addSlider(textSliderView);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+
+        if(CheckNetwork.isInternetAvailable(getApplicationContext())) {
+            // Creating volley request obj for Banner
+            JsonArrayRequest bannerReq = new JsonArrayRequest(bannerUrl,
+                    new Response.Listener<JSONArray>() {
+                        @Override
+                        public void onResponse(JSONArray response) {
+                            Log.d(msg, response.toString());
+                            // Parsing json
+                            for (int i = 0; i < response.length(); i++) {
+                                try {
+                                    JSONObject obj = response.getJSONObject(i);
+                                    String url = "http://192.168.100.2/bs.dev/nrum/uploads/company_1/banner/";
+                                    String imageName = obj.getString("pc_image");
+                                    String imageUrl = url.concat(imageName);
+
+                                    String description = obj.getString("description");
+                                    TextSliderView textSliderView = new TextSliderView(getApplicationContext());
+                                    // initialize a SliderLayout
+                                    textSliderView
+                                            .description(description)
+                                            .image(imageUrl)
+                                            .setScaleType(BaseSliderView.ScaleType.Fit);
+                                    //add your extra information
+                                    textSliderView.bundle(new Bundle());
+                                    mDemoSlider.addSlider(textSliderView);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(msg, "Error: " + error.getMessage());
-            }
-        });
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(bannerReq);
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    VolleyLog.d(msg, "Error: " + error.getMessage());
+                }
+            });
+            // Adding request to request queue
+            AppController.getInstance().addToRequestQueue(bannerReq);
+        } else {
+            //no connection
+            Toast toast = Toast.makeText(MainActivity.this, "No Internet Connection", Toast.LENGTH_LONG);
+            toast.show();
+
+
+        }
+
 
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);

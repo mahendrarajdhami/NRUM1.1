@@ -63,15 +63,14 @@ public class CustomListAdapter extends BaseAdapter {
         TextView detail = (TextView) convertView.findViewById(R.id.detail);
         // getting news data for the row
         News n = newsItems.get(position);
+
         // thumbnail image
-//        thumbNail.setImageUrl(m.getThumbnailUrl(), imageLoader);
+        thumbNail.setImageUrl("http://192.168.100.2/bs.dev/nrum/uploads/company_1/news/100_".concat(n.getFeatureImage()), imageLoader);
 
         // title
         title.setText(n.getTitle());
         //detail
-        title.setText(n.getDetail());
-
+        detail.setText(n.getDetail());
         return convertView;
     }
-
 }

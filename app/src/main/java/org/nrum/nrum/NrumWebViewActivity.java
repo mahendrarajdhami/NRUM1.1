@@ -47,14 +47,14 @@ public class NrumWebViewActivity extends AppCompatActivity {
         pDialog = new ProgressDialog(this);
         pDialog.setMessage("Loading...");
 
-        if (CheckNetwork.isInternetAvailable(NrumWebViewActivity.this)){
+        if (CheckNetwork.isInternetAvailable(getApplicationContext())){
             webview.getSettings().setJavaScriptEnabled(true);
             webview.getSettings().setDomStorageEnabled(true);
             webview.getSettings().setLoadWithOverviewMode(true);
             webview.getSettings().setUseWideViewPort(true);
             webview.getSettings().setBuiltInZoomControls(true);
             webview.setWebViewClient(new MyWebViewClient());
-            webview.loadUrl("http://192.168.0.100/bs.dev/nrum");
+            webview.loadUrl("http://192.168.100.2/bs.dev/nrum");
         } else {
             //no connection
             Toast toast = Toast.makeText(NrumWebViewActivity.this, "No Internet Connection", Toast.LENGTH_LONG);
