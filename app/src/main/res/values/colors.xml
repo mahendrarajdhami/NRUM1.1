@@ -20,4 +20,8 @@
     <color name="PrimaryColor">#2196F3</color>
     <color name="PrimaryDarkColor">#1976D2</color>
     <color name="indicator">#ecd95a</color>
+
+    // menu color
+    <color name="colorMenu">#ffffff</color>
+
 </resources>

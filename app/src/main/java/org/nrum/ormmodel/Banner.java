@@ -39,7 +39,7 @@ public class Banner extends Model {
     public String pc_image;
 
     @Column(name = COLUMN_DISPLAY_ORDER)
-    public String display_order;
+    public int display_order;
 
     //Mandatory no arg constructor
     public Banner(){
@@ -47,8 +47,9 @@ public class Banner extends Model {
     }
 
     //retrieve all items
-    public static List<Banner> getAllNews() {
+    public static List<Banner> getAllBanners() {
         List<Banner> result = new Select().from(Banner.class).execute();
+
         return result;
     }
 

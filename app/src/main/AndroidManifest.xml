@@ -69,7 +69,6 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         // for active android
         <meta-data
             android:name="AA_DB_NAME"
@@ -89,6 +88,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.nrum.nrum.MainActivity" />
+        </activity>
+        <activity
+            android:name=".NewsDetailActivity"
+            android:label="@string/title_activity_news_detail"
+            android:parentActivityName=".NewsListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.nrum.nrum.NewsListActivity" />
         </activity>
     </application>
 

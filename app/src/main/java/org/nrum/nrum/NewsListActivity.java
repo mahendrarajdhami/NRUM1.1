@@ -1,6 +1,7 @@
 package org.nrum.nrum;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -8,10 +9,12 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.util.Log;
 import com.android.volley.Cache;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -45,21 +48,22 @@ public class NewsListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_list);
-        listView = (ListView) findViewById(R.id.list);
+        ListView listView = (ListView) findViewById(R.id.list);
         adapter = new CustomListAdapter(this, newsList);
         listView.setAdapter(adapter);
 
-        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        // click event for list item
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?>adapter,View v, int position){
-                ItemClicked item = adapter.getItemAtPosition(position);
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("onItemClick", "position" + position);
+                Intent intent = new Intent(NewsListActivity.this,NewsDetailActivity.class);
+                Toast.makeText(getApplicationContext(), String.valueOf(position)
 
-                Intent intent = new Intent(Activity.this,destinationActivity.class);
-                //based on item add info to intent
+                ,Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
-        });*/
-
+        });
 
 
         RequestQueue mRequestQueue = AppController.getInstance().getRequestQueue();
@@ -72,10 +76,6 @@ public class NewsListActivity extends AppCompatActivity {
         pDialog.setMessage("Loading...");
         pDialog.show();
 
-        // changing action bar color
-        /*getActionBar().setBackgroundDrawable(
-                new ColorDrawable(Color.parseColor("#1b1b1b")));*/
-
         // action for refreshWeb
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.refreshWeb);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -86,12 +86,8 @@ public class NewsListActivity extends AppCompatActivity {
                 startActivity(getIntent());
             }
         });
-
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if(CheckNetwork.isInternetAvailable(getApplicationContext())) {

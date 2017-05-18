@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.activeandroid.ActiveAndroid;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
@@ -29,8 +30,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.nrum.app.AppController;
+import org.nrum.ormmodel.Banner;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -69,14 +72,19 @@ public class MainActivity extends AppCompatActivity
                         public void onResponse(JSONArray response) {
                             Log.d(msg, response.toString());
                             // Parsing json
+
+                            ActiveAndroid.beginTransaction();
                             for (int i = 0; i < response.length(); i++) {
                                 try {
                                     JSONObject obj = response.getJSONObject(i);
-                                    String url = "http://192.168.100.2/bs.dev/nrum/uploads/company_1/banner/";
-                                    String imageName = obj.getString("pc_image");
-                                    String imageUrl = url.concat(imageName);
-
+                                    String url = "http://192.168.100.2/bs.dev/nrum/uploads/company_1/banner/600_";
+                                    int bannerID = obj.getInt("banner_id");
+                                    String title = obj.getString("title");
                                     String description = obj.getString("description");
+                                    String pcImage = obj.getString("pc_image");
+                                    int displayOrder = obj.getInt("display_order");
+                                    String imageUrl = url.concat(pcImage);
+
                                     TextSliderView textSliderView = new TextSliderView(getApplicationContext());
                                     // initialize a SliderLayout
                                     textSliderView
@@ -86,10 +94,22 @@ public class MainActivity extends AppCompatActivity
                                     //add your extra information
                                     textSliderView.bundle(new Bundle());
                                     mDemoSlider.addSlider(textSliderView);
+
+                                    // saving to sqlite database
+                                    Banner ormBanner = new Banner();
+                                    ormBanner.banner_id = bannerID;
+                                    ormBanner.title = title;
+                                    ormBanner.description = description;
+                                    ormBanner.pc_image = pcImage;
+                                    ormBanner.display_order = displayOrder;
+                                    ormBanner.save();
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                             }
+                            ActiveAndroid.setTransactionSuccessful();
+                            ActiveAndroid.endTransaction();
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -104,10 +124,19 @@ public class MainActivity extends AppCompatActivity
             Toast toast = Toast.makeText(MainActivity.this, "No Internet Connection", Toast.LENGTH_LONG);
             toast.show();
 
+            List<Banner> ormBannerList = Banner.getAllBanners();
+            for (Banner item:ormBannerList) {
 
+                TextSliderView textSliderView = new TextSliderView(getApplicationContext());
+                textSliderView
+                        .description(item.description)
+                        .image("http://192.168.100.2/bs.dev/nrum/uploads/company_1/banner/600_".concat(item.pc_image))
+                        .setScaleType(BaseSliderView.ScaleType.Fit);
+                //add your extra information
+                textSliderView.bundle(new Bundle());
+                mDemoSlider.addSlider(textSliderView);
+            }
         }
-
-
         mDemoSlider.setPresetTransformer(SliderLayout.Transformer.Accordion);
         mDemoSlider.setPresetIndicator(SliderLayout.PresetIndicators.Center_Bottom);
         mDemoSlider.setCustomAnimation(new DescriptionAnimation());
