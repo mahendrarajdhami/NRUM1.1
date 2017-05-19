@@ -2,7 +2,9 @@ package org.nrum.nrum;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -51,16 +53,15 @@ public class NewsListActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.list);
         adapter = new CustomListAdapter(this, newsList);
         listView.setAdapter(adapter);
-
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final String  currentLangID = sharedPreferences.getString("lang_list", "default_value") ;
         // click event for list item
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d("onItemClick", "position" + position);
                 Intent intent = new Intent(NewsListActivity.this,NewsDetailActivity.class);
-                Toast.makeText(getApplicationContext(), String.valueOf(position)
-
-                ,Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), String.valueOf(position),Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
         });
@@ -109,11 +110,11 @@ public class NewsListActivity extends AppCompatActivity {
                                     JSONObject  objDetail = new JSONObject(obj.getString("details"));
                                     String  featureImage = obj.getString("feature_image");
 
-                                    String title = Html.fromHtml(objTitle.getString("1")).toString();
+                                    String title = Html.fromHtml(objTitle.getString(currentLangID)).toString();
                                     if (title.length()> 50) {
                                         title = TextUtils.substring(title,0,50).concat("...");
                                     }
-                                    String detail = Html.fromHtml(objDetail.getString("1")).toString();
+                                    String detail = Html.fromHtml(objDetail.getString(currentLangID)).toString();
                                     if(detail.length()> 100) {
                                         detail = TextUtils.substring(detail,0,100).concat("...");
                                     }
