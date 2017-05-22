@@ -43,10 +43,10 @@ dependencies {
     compile 'com.prolificinteractive:material-calendarview:1.4.2'
     // for butterknife
     compile 'com.jakewharton:butterknife:7.0.1'
-
     //for active android
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
-
+    // for detail image view
+    compile 'com.squareup.picasso:picasso:2.5.2'
 }
 apply plugin: 'com.google.gms.google-services'
 

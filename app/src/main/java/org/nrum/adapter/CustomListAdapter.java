@@ -54,7 +54,6 @@ public class CustomListAdapter extends BaseAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null)
             convertView = inflater.inflate(R.layout.list_row_news, null);
-
         if (imageLoader == null)
             imageLoader = AppController.getInstance().getImageLoader();
         NetworkImageView thumbNail = (NetworkImageView) convertView
@@ -63,10 +62,8 @@ public class CustomListAdapter extends BaseAdapter {
         TextView detail = (TextView) convertView.findViewById(R.id.detail);
         // getting news data for the row
         News n = newsItems.get(position);
-
         // thumbnail image
         thumbNail.setImageUrl("http://192.168.100.2/bs.dev/nrum/uploads/company_1/news/100_".concat(n.getFeatureImage()), imageLoader);
-
         // title
         title.setText(n.getTitle());
         //detail

@@ -5,36 +5,36 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_home"
-            android:title="Home" />
+            android:title="@string/dmenu_home" />
         <item
             android:id="@+id/nav_news"
             android:icon="@drawable/ic_news_24dp"
-            android:title="News" />
+            android:title="@string/dmenu_news" />
         <item
             android:id="@+id/nav_events"
             android:icon="@drawable/ic_events_24dp"
-            android:title="Events" />
+            android:title="@string/dmenu_event" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:title="@string/dmenu_gallery" />
         <item
             android:id="@+id/nav_docs"
             android:icon="@drawable/ic_menu_docs"
-            android:title="Docs" />
+            android:title="@string/dmenu_docs" />
 
         <item
             android:id="@+id/nav_calendar"
             android:icon="@drawable/ic_menu_calendar"
-            android:title="Calendar" />
+            android:title="@string/dmenu_calendar" />
         <item
             android:id="@+id/nav_wordbank"
             android:icon="@drawable/ic_menu_calendar"
-            android:title="Word Bank (शब्द कोष)" />
+            android:title="@string/dmenu_wordbank" />
         <item
             android:id="@+id/nav_signin"
             android:icon="@drawable/ic_menu_signin"
-            android:title="SignIn" />
+            android:title="@string/dmenu_signin" />
     </group>
 
     <item android:title="Other Links">
@@ -42,7 +42,7 @@
             <item
                 android:id="@+id/nav_web"
                 android:icon="@drawable/ic_menu_web"
-                android:title="Website" />
+                android:title="@string/dmenu_website" />
         </menu>
     </item>
 

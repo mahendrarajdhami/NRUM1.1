@@ -51,4 +51,10 @@ public class News extends Model {
         List<News> result = new Select().from(News.class).execute();
         return result;
     }
+
+    //retrieve single item using id
+    public static News getItem(int id) {
+        News result = new Select().from(News.class).where("news_id = ?", id).executeSingle();
+        return result;
+    }
  }

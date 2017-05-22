@@ -21,18 +21,30 @@
             android:padding="5dp">
 
             <ImageView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:id="@+id/imageView3"
+                android:scaleType="fitCenter"
+                android:id="@+id/featureImage"
                 android:src="@drawable/slider2" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/title"
+                android:layout_below="@+id/featureImage"
+                android:text="This is Title of latest news in NRUM"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="20dip" />
+
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/detail"
+                android:layout_below="@+id/title"
                 android:text="@string/large_text"
-                android:id="@+id/textView2"
-                android:layout_below="@+id/imageView3"
                 android:layout_alignParentEnd="true" />
 
         </RelativeLayout>

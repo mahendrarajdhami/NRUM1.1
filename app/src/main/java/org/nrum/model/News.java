@@ -5,16 +5,24 @@ package org.nrum.model;
  */
 public class News {
     private String title, featureImage, detail;
+    private int news_id;
+    public News () {
 
-    public News() {
     }
-
-    public News(String name, String featureImage, String detail) {
+    public News(int news_id, String name, String featureImage, String detail) {
+        this.news_id = news_id;
         this.title = name;
         this.featureImage = featureImage;
         this.detail = detail;
     }
 
+    public int getNewsID() {
+        return news_id;
+    }
+
+    public void setNewsID(int newsID) {
+        this.news_id = newsID;
+    }
     public String getTitle() {
         return title;
     }

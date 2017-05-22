@@ -1,6 +1,4 @@
 package org.nrum.nrum;
-
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
@@ -18,16 +16,18 @@ import android.preference.RingtonePreference;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 
 import java.util.List;
 public class SettingsActivity extends AppCompatPreferenceActivity {
+    private Context context;
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
 
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
-            String stringValue = value.toString();
 
+            String stringValue = value.toString();
             if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
                 // the preference's 'entries' list.
@@ -92,7 +92,23 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     private static void bindPreferenceSummaryToValue(Preference preference) {
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
+        String mKey = preference.getKey();
         String mValue = PreferenceManager.getDefaultSharedPreferences(preference.getContext()).getString(preference.getKey(), "");
+        if(mKey.equals("lang_list")) {
+            Log.d("mKey",mKey);
+            if(mValue.equals("3")) {
+                //ne locale
+                new SettingsActivity().setLocale("ne");
+
+            } else if (mValue.equals("2")) {
+                //ra locale
+                new SettingsActivity().setLocale("ra");
+
+            } else {
+                // en locale
+                new SettingsActivity().setLocale("en");
+            }
+        }
 
         // Trigger the listener immediately with the preference's
         // current value.
@@ -100,6 +116,17 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
                         .getString(preference.getKey(), ""));
+    }
+
+
+    // method to set locale on the basis of selected app language
+    public void setLocale(String lang) {
+        /*Locale myLocale = new Locale(lang);
+        Resources res = context.getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);*/
     }
 
     @Override

@@ -16,7 +16,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.activeandroid.ActiveAndroid;
-import com.activeandroid.util.Log;
 import com.android.volley.Cache;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -48,24 +47,24 @@ public class NewsListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_list);
         ListView listView = (ListView) findViewById(R.id.list);
         adapter = new CustomListAdapter(this, newsList);
         listView.setAdapter(adapter);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final String  currentLangID = sharedPreferences.getString("lang_list", "default_value") ;
+        final String  currentLangID = sharedPreferences.getString("lang_list", "default_value");
         // click event for list item
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.d("onItemClick", "position" + position);
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                int newsID = newsList.get(position).getNewsID();
                 Intent intent = new Intent(NewsListActivity.this,NewsDetailActivity.class);
-                Toast.makeText(getApplicationContext(), String.valueOf(position),Toast.LENGTH_SHORT).show();
+                intent.putExtra("newsID", String.valueOf(newsID));
                 startActivity(intent);
             }
         });
-
 
         RequestQueue mRequestQueue = AppController.getInstance().getRequestQueue();
 
@@ -118,6 +117,7 @@ public class NewsListActivity extends AppCompatActivity {
                                     if(detail.length()> 100) {
                                         detail = TextUtils.substring(detail,0,100).concat("...");
                                     }
+                                    news.setNewsID(newsID);
                                     news.setFeatureImage(featureImage);
                                     news.setTitle(title);
                                     news.setDetail(detail);
@@ -157,6 +157,7 @@ public class NewsListActivity extends AppCompatActivity {
             List<org.nrum.ormmodel.News> ormNewsList = org.nrum.ormmodel.News.getAllNews();
             for (org.nrum.ormmodel.News item:ormNewsList) {
                 News news = new News();
+                news.setNewsID(item.news_id);
                 news.setTitle(item.title);
                 news.setDetail(item.details);
                 news.setFeatureImage(item.feature_image);

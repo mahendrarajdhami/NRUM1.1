@@ -8,10 +8,19 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
+
+import org.nrum.ormmodel.News;
 
 public class NewsDetailActivity extends AppCompatActivity {
+
+    String newsID = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,6 +28,35 @@ public class NewsDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // get passed var
+        String newsIDStr = getIntent().getStringExtra("newsID");
+        News news = News.getItem(Integer.parseInt(newsIDStr));
+        String featureImage = news.feature_image;
+        String title = news.title;
+        String detail = news.details;
+        String url = "http://192.168.100.2/bs.dev/nrum/uploads/company_1/news/750_";
+        ImageView imageView = (ImageView)findViewById(R.id.featureImage);
+        TextView textTitle = (TextView)findViewById(R.id.title);
+        TextView textDetail = (TextView)findViewById(R.id.detail);
+
+        // Setting Data (image,title,detail)
+//        Picasso.with(getApplicationContext()).load(url.concat(featureImage)).into(imageView);
+        Picasso.with(getApplicationContext()).load(url.concat(featureImage)).centerCrop().fit()
+                .placeholder(R.mipmap.nrum_logo)
+                .error(R.mipmap.nrum_logo)
+                .into(imageView, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Log.i("Picasso", "onSuccess: TRUE");
+                    }
+
+                    @Override
+                    public void onError() {
+                        Log.i("Picasso", "onError: TRUE");
+                    }
+                });
+        textTitle.setText(title);
+        textDetail.setText(detail);
     }
 
     private ShareActionProvider mShareActionProvider;
