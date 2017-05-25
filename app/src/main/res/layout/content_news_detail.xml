@@ -22,10 +22,9 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="200dp"
                 android:scaleType="fitCenter"
-                android:id="@+id/featureImage"
-                android:src="@drawable/slider2" />
+                android:id="@+id/featureImage" />
 
             <TextView
                 android:layout_width="match_parent"

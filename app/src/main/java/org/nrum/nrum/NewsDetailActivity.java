@@ -1,8 +1,10 @@
 package org.nrum.nrum;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -16,7 +18,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONObject;
 import org.nrum.ormmodel.News;
+import org.nrum.util.MFunction;
 
 public class NewsDetailActivity extends AppCompatActivity {
 
@@ -28,13 +32,18 @@ public class NewsDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        final String  currentLangID = sharedPreferences.getString("lang_list", "1");
         // get passed var
         String newsIDStr = getIntent().getStringExtra("newsID");
         News news = News.getItem(Integer.parseInt(newsIDStr));
         String featureImage = news.feature_image;
-        String title = news.title;
-        String detail = news.details;
-        String url = "http://192.168.100.2/bs.dev/nrum/uploads/company_1/news/750_";
+        JSONObject objTitle = MFunction.jsonStrToObj(news.title);
+        JSONObject objDetail = MFunction.jsonStrToObj(news.details);
+        String mTitle = MFunction.getFormatedString(objTitle,"title", currentLangID,200);
+        String mDetail = MFunction.getFormatedString(objDetail,"detail", currentLangID);
+        String url = Constant.UPLOAD_PATH_NEWS + "/750_";
         ImageView imageView = (ImageView)findViewById(R.id.featureImage);
         TextView textTitle = (TextView)findViewById(R.id.title);
         TextView textDetail = (TextView)findViewById(R.id.detail);
@@ -55,8 +64,8 @@ public class NewsDetailActivity extends AppCompatActivity {
                         Log.i("Picasso", "onError: TRUE");
                     }
                 });
-        textTitle.setText(title);
-        textDetail.setText(detail);
+        textTitle.setText(mTitle);
+        textDetail.setText(mDetail);
     }
 
     private ShareActionProvider mShareActionProvider;

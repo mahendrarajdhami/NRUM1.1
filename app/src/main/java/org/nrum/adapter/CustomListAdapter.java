@@ -2,6 +2,7 @@ package org.nrum.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import com.android.volley.toolbox.NetworkImageView;
 
 import org.nrum.app.AppController;
 import org.nrum.model.News;
+import org.nrum.nrum.Constant;
 import org.nrum.nrum.R;
 
 import java.util.List;
@@ -63,11 +65,19 @@ public class CustomListAdapter extends BaseAdapter {
         // getting news data for the row
         News n = newsItems.get(position);
         // thumbnail image
-        thumbNail.setImageUrl("http://192.168.100.2/bs.dev/nrum/uploads/company_1/news/100_".concat(n.getFeatureImage()), imageLoader);
+        thumbNail.setImageUrl(Constant.UPLOAD_PATH_NEWS+ "/100_".concat(n.getFeatureImage()), imageLoader);
         // title
-        title.setText(n.getTitle());
+        String mTitle = n.getTitle();
+        if(mTitle !=null && mTitle.length()> 50) {
+            mTitle = TextUtils.substring(n.getTitle(),0,50).concat("...");
+        }
+        title.setText(mTitle);
         //detail
-        detail.setText(n.getDetail());
+        String mDetail = n.getDetail();
+        if (mDetail !=null && mDetail.length()>100) {
+            mDetail = TextUtils.substring(n.getDetail(),0,100).concat("...");
+        }
+        detail.setText(mDetail);
         return convertView;
     }
 }

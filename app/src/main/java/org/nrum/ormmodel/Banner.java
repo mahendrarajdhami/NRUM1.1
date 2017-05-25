@@ -52,5 +52,4 @@ public class Banner extends Model {
 
         return result;
     }
-
 }

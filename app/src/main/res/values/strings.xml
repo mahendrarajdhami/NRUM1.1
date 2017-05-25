@@ -72,8 +72,8 @@
     <string name="pref_title_lang">Language</string>
     <string-array name="pref_lang_list_titles">
         <item>English</item>
-        <item>Rajdhami</item>
-        <item>Nepali</item>
+        <item>नेपाली</item>
+        <item>राजधामी</item>
     </string-array>
     <string-array name="pref_lang_list_values">
         <item>1</item>
@@ -114,4 +114,10 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="dmenu_website">Website</string>
+    <string name="want_to_exit">Do you really want to Exit?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="no_latest_notice">We don\'t have latest Notice.</string>
+    <string name="server_not_responding">Server is not responding.Plese contact Administrator</string>
 </resources>

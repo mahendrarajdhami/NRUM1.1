@@ -27,15 +27,18 @@
         android:id="@+id/notificationBar"
         android:layout_below="@+id/slider"
         android:layout_width="match_parent"
-        android:layout_height="50dip"
+        android:layout_height="60dip"
         android:orientation="vertical"
         android:gravity="center_horizontal">
 
         <Button
+            android:id="@+id/noticeButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/ic_notification"
             android:backgroundTint="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:gravity="left"
             android:text="This is to notify all members to participate in Picnic Program." />
 
     </LinearLayout>

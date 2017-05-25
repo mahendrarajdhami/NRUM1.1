@@ -18,6 +18,7 @@
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
+            android:configChanges="layoutDirection|locale"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -28,16 +29,17 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:configChanges="layoutDirection|locale"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".NrumWebViewActivity"
             android:label="@string/title_activity_nrum_web_view"
+            android:configChanges="layoutDirection|locale"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -47,6 +49,7 @@
         <activity
             android:name=".NewsListActivity"
             android:label="@string/title_activity_news_list"
+            android:configChanges="layoutDirection|locale"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -56,6 +59,7 @@
         <activity
             android:name=".SignInActivity"
             android:label="SignIn"
+            android:configChanges="layoutDirection|locale"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -78,11 +82,12 @@
             android:value="1" />
         <meta-data
             android:name="AA_MODELS"
-            android:value="org.nrum.db_nrum.News, org.nrum.db_nrum.Banner" />
+            android:value="org.nrum.db_nrum.News, org.nrum.db_nrum.Banner, org.nrum.db_nrum.Notice" />
 
         <activity
             android:name=".CalendarActivity"
             android:label="@string/title_activity_calendar"
+            android:configChanges="layoutDirection|locale"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -92,6 +97,7 @@
         <activity
             android:name=".NewsDetailActivity"
             android:label="@string/title_activity_news_detail"
+            android:configChanges="layoutDirection|locale"
             android:parentActivityName=".NewsListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
@@ -101,6 +107,7 @@
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
+            android:configChanges="layoutDirection|locale"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
