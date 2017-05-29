@@ -34,4 +34,6 @@
     <string name="yes">ह</string>
     <string name="no">नै</string>
     <string name="no_internet_connection">इन्टरनेट नैछा हौ !</string>
+    <string name="server_not_responding">सर्भरमे समस्याके कारण वेबसाइट लोड नैभ्यारहल्छा!</string>
+    <string name="ago">अगा</string>
 </resources>

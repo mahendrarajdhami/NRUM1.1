@@ -22,6 +22,8 @@ public class News extends Model {
     private static final String COLUMN_DETAIL = "details";
     private static final String COLUMN_FEATURE_IMAGE = "feature_image";
     private static final String COLUMN_DISPLAY_ORDER = "display_order";
+    private static final String COLUMN_PUBLISH_DATE_FROM = "publish_date_from";
+    private static final String COLUMN_CATEGORY_NAME = "category_name";
 
     @Column(name = COLUMN_NEWS_ID,
             unique = true,
@@ -39,7 +41,13 @@ public class News extends Model {
     public String feature_image;
 
     @Column(name = COLUMN_DISPLAY_ORDER)
-    public String display_order;
+    public int display_order;
+
+    @Column(name = COLUMN_PUBLISH_DATE_FROM)
+    public String publish_date_from;
+
+    @Column(name = COLUMN_CATEGORY_NAME)
+    public String category_name;
 
     //Mandatory no arg constructor
     public News(){
@@ -48,7 +56,7 @@ public class News extends Model {
 
     //retrieve all items
     public static List<News> getAllNews() {
-        List<News> result = new Select().from(News.class).execute();
+        List<News> result = new Select().from(News.class).orderBy("publish_date_from DESC").execute();
         return result;
     }
 

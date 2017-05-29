@@ -10,8 +10,8 @@
     //for list view using volley
     <dimen name="title">17dp</dimen>
     <dimen name="rating">15dip</dimen>
-    <dimen name="genre">13dip</dimen>
-    <dimen name="year">12dip</dimen>
+    <dimen name="category">13dip</dimen>
+    <dimen name="time_before">12dip</dimen>
     <dimen name="signin_button_padding">20dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>

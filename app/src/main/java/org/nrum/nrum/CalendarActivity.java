@@ -77,10 +77,10 @@ public class CalendarActivity extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        adapter =new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);
+//        adapter =new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);
         // Assigning ViewPager View and setting the adapter
-        pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(adapter);
+//        pager = (ViewPager) findViewById(R.id.pager);
+//        pager.setAdapter(adapter);
 
         /*// Assiging the Sliding Tab Layout View
         tabs = (SlidingTabLayout) findViewById(R.id.tabs);

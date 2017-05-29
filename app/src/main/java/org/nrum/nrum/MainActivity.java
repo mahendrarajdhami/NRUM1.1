@@ -24,20 +24,12 @@ import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.activeandroid.ActiveAndroid;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
-import org.nrum.app.AppController;
 import org.nrum.ormmodel.Banner;
 import org.nrum.ormmodel.Notice;
 import org.nrum.util.MFunction;
@@ -48,7 +40,9 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private SliderLayout mDemoSlider;
+    private static String currentLangID;
     String msg = "LogInfo : ";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,16 +62,16 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        final String  currentLangID = sharedPreferences.getString("lang_list", "1");
+        currentLangID = sharedPreferences.getString("lang_list", "1");
 
         if(MFunction.isInternetAvailable(getApplicationContext())) {
-            this.fetchBanners();
-            this.fetchNotice();
+            MFunction.fetchBanners();
+            MFunction.fetchNotice();
         } else {
             Toast.makeText(MainActivity.this,getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
         }
-        this.setNoticeText(currentLangID);
-        this.setSlider(currentLangID);
+        setNoticeText(currentLangID);
+        setSlider(currentLangID);
     }
     @Override
     public void onBackPressed() {
@@ -119,13 +113,11 @@ public class MainActivity extends AppCompatActivity
                 return true;
             }
             case R.id.action_sync: {
-                Toast.makeText(MainActivity.this, "Loading data", Toast.LENGTH_SHORT).show();
-                // refresh Activity
-                /*finish();
-                startActivity(getIntent());*/
+                Toast.makeText(MainActivity.this, getText(R.string.loading), Toast.LENGTH_LONG).show();
+                MFunction.fetchAllData();
+                setNoticeText(currentLangID);
                 return true;
             }
-
             default: {
                 return super.onOptionsItemSelected(item);
             }
@@ -159,18 +151,20 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this,R.string.under_construction, Toast.LENGTH_SHORT).show();
                 break;
             }
-            case R.id.nav_signin :{
-                /*Log.d(msg, "nav_signin Menu is clicked");
-                Intent intent = new Intent(MainActivity.this,SignInActivity.class);
-                startActivity(intent);*/
-                Toast.makeText(MainActivity.this, R.string.under_construction, Toast.LENGTH_SHORT).show();
-                break;
-            }
 
             case R.id.nav_wordbank :{
                 /*Log.d(msg, "nav_signin Menu is clicked");
                 Intent intent = new Intent(MainActivity.this,SignInActivity.class);
                 startActivity(intent);*/
+                Toast.makeText(MainActivity.this,R.string.under_construction, Toast.LENGTH_SHORT).show();
+                break;
+            }
+            case R.id.nav_settings :{
+                Intent intent = new Intent(MainActivity.this,SettingsActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.nav_signin :{
                 Toast.makeText(MainActivity.this,R.string.under_construction, Toast.LENGTH_SHORT).show();
                 break;
             }
@@ -197,74 +191,6 @@ public class MainActivity extends AppCompatActivity
     {
         Intent intent = new Intent(MainActivity.this, NewsListActivity.class);
         startActivity(intent);
-    }
-
-    private void fetchNotice(){
-        JsonArrayRequest noticeReq = new JsonArrayRequest(Constant.NOTICE_API,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        ActiveAndroid.beginTransaction();
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject obj = response.getJSONObject(i);
-                                // saving to sqlite database
-                                Notice ormNotice = new Notice();
-                                ormNotice.notice_id = obj.getInt("notice_id");
-                                ormNotice.notice_title = obj.getString("notice_title");
-                                ormNotice.detail = obj.getString("detail");
-                                ormNotice.display_order = obj.getInt("display_order");
-                                ormNotice.save();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        ActiveAndroid.setTransactionSuccessful();
-                        ActiveAndroid.endTransaction();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(msg, "Error: " + error.getMessage());
-            }
-        });
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(noticeReq);
-    }
-
-    private void fetchBanners(){
-        // Creating volley request obj for Banner
-        JsonArrayRequest bannerReq = new JsonArrayRequest(Constant.BANNER_API,
-                new Response.Listener<JSONArray>() {
-                    @Override
-                    public void onResponse(JSONArray response) {
-                        ActiveAndroid.beginTransaction();
-                        for (int i = 0; i < response.length(); i++) {
-                            try {
-                                JSONObject obj = response.getJSONObject(i);
-                                // saving to sqlite database
-                                Banner ormBanner = new Banner();
-                                ormBanner.banner_id = obj.getInt("banner_id");
-                                ormBanner.title = (obj.has("title"))?obj.getString("title"):null;
-                                ormBanner.description = (obj.has("description"))?obj.getString("description"):null;
-                                ormBanner.pc_image = obj.getString("pc_image");
-                                ormBanner.display_order = obj.getInt("display_order");
-                                ormBanner.save();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        ActiveAndroid.setTransactionSuccessful();
-                        ActiveAndroid.endTransaction();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                VolleyLog.d(msg, "Error: " + error.getMessage());
-            }
-        });
-        // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(bannerReq);
     }
 
     private void setNoticeText(final String currentLangID){

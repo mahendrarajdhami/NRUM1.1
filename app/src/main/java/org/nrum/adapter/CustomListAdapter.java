@@ -62,6 +62,8 @@ public class CustomListAdapter extends BaseAdapter {
                 .findViewById(R.id.thumbnail);
         TextView title = (TextView) convertView.findViewById(R.id.title);
         TextView detail = (TextView) convertView.findViewById(R.id.detail);
+        TextView categoryName = (TextView) convertView.findViewById(R.id.category);
+        TextView timeBefore = (TextView) convertView.findViewById(R.id.timeBefore);
         // getting news data for the row
         News n = newsItems.get(position);
         // thumbnail image
@@ -78,6 +80,8 @@ public class CustomListAdapter extends BaseAdapter {
             mDetail = TextUtils.substring(n.getDetail(),0,100).concat("...");
         }
         detail.setText(mDetail);
+        categoryName.setText(n.getCategoryName());
+        timeBefore.setText(n.getPublishDateFrom());
         return convertView;
     }
 }

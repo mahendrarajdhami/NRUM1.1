@@ -64,6 +64,7 @@ public class NrumWebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_nrum_web_view);
         webView =(WebView)findViewById(R.id.NrumWebView);
         pDialog = new ProgressDialog(this);
+        pDialog.setTitle(getString(R.string.app_name));
         pDialog.setMessage(getString(R.string.loading));
         if (MFunction.isInternetAvailable(getApplicationContext())){
             webView.getSettings().setJavaScriptEnabled(true);
@@ -74,7 +75,7 @@ public class NrumWebViewActivity extends AppCompatActivity {
             webView.setWebViewClient(new MyWebViewClient());
             webView.loadUrl(Constant.SERVER);
         } else {
-            Toast.makeText(NrumWebViewActivity.this, getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
+            Toast.makeText(NrumWebViewActivity.this, getString(R.string.no_internet_connection),Toast.LENGTH_LONG).show();
         }
         // action for refreshWeb
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.refreshWeb);

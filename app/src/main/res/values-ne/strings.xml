@@ -34,4 +34,6 @@
     <string name="yes">हो</string>
     <string name="no">हैन</string>
     <string name="no_internet_connection">इन्टरनेट कनेक्सन छैन</string>
+    <string name="server_not_responding">सर्भरमा समस्या भएकोले गर्दा वेबसाइट लोड हुनसकेन!</string>
+    <string name="ago">पहिले</string>
 </resources>
