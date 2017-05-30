@@ -60,6 +60,12 @@ public class News extends Model {
         return result;
     }
 
+    //retrieve limited news
+    public static List<News> getNews(int limit) {
+        List<News> result = new Select().from(News.class).orderBy("publish_date_from DESC").limit(limit).execute();
+        return result;
+    }
+
     //retrieve single item using id
     public static News getItem(int id) {
         News result = new Select().from(News.class).where("news_id = ?", id).executeSingle();

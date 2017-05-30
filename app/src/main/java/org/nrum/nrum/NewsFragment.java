@@ -1,30 +1,23 @@
 package org.nrum.nrum;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import com.android.volley.Cache;
-import com.android.volley.RequestQueue;
 
 import org.json.JSONObject;
-import org.nrum.adapter.CustomListAdapter;
-import org.nrum.app.AppController;
+import org.nrum.adapter.CustomMainNewsListAdapter;
 import org.nrum.model.News;
 import org.nrum.util.MDateConversion;
 import org.nrum.util.MFunction;
 
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,94 +25,65 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class NewsListActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
-    // Log tag
-    private static final String TAG = NewsListActivity.class.getSimpleName();
-    private static String currentLangID = "en";
-    private static DecimalFormat df2 = new DecimalFormat("0.00");
-    private ProgressDialog pDialog;
-    private List<News> newsList = new ArrayList<News>();
-    private ListView listView;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private CustomListAdapter adapter;
+public class NewsFragment extends Fragment {
+    private static String currentLangID = "1";
+    private List<News> mainNewsItems = new ArrayList<News>();
+    private ListView mainNewsListView;
+    private CustomMainNewsListAdapter mainNewsListViewAdapter;
+
+    public NewsFragment() {
+        // Required empty public constructor
+
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news_list);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        currentLangID = sharedPreferences.getString("lang_list", "1");
-        ListView listView = (ListView) findViewById(R.id.list);
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        adapter = new CustomListAdapter(this, newsList);
-        listView.setAdapter(adapter);
-        swipeRefreshLayout.setOnRefreshListener(this);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(NewsFragment.this.getActivity());
+        this.currentLangID = sharedPreferences.getString("lang_list", "1");
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_news, container, false);
+        ListView mainNewsListView = (ListView) view.findViewById(R.id.mainNewsList);
+        mainNewsListViewAdapter = new CustomMainNewsListAdapter(NewsFragment.this.getActivity(),mainNewsItems);
+        mainNewsListView.setAdapter(mainNewsListViewAdapter);
+
         // click event for list item
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mainNewsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                int newsID = newsList.get(position).getNewsID();
-                Intent intent = new Intent(NewsListActivity.this,NewsDetailActivity.class);
+                int newsID = mainNewsItems.get(position).getNewsID();
+                Intent intent = new Intent(NewsFragment.this.getActivity(),NewsDetailActivity.class);
                 intent.putExtra("newsID", String.valueOf(newsID));
                 startActivity(intent);
             }
         });
+        setNews(currentLangID);
+        return view;
+    }
 
-        RequestQueue mRequestQueue = AppController.getInstance().getRequestQueue();
-        Cache cache = AppController.getInstance().getRequestQueue().getCache();
-        Cache.Entry entry = cache.get(Constant.NEWS_API);
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
 
-        pDialog = new ProgressDialog(this);
-        pDialog.setTitle(getString(R.string.app_name));
-        pDialog.setMessage(getString(R.string.loading));
-
-        // action for refreshWeb
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.refreshWeb);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MFunction.fetchNews(swipeRefreshLayout);
+            case R.id.action_sync: {
                 setNews(currentLangID);
+                return true;
             }
-        });
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        if(CheckNetwork.isInternetAvailable(getApplicationContext())) {
-            MFunction.fetchNews(swipeRefreshLayout);
-        } else {
-            Toast.makeText(NewsListActivity.this, getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
-        }
-        setNews(currentLangID);
-    }
-
-    /**
-     * This method is called when swipe refresh is pulled down
-     */
-    @Override
-    public void onRefresh() {
-        MFunction.fetchNews(swipeRefreshLayout);
-        setNews(currentLangID);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        hidePDialog();
-    }
-
-    private void hidePDialog() {
-        if (pDialog != null) {
-            pDialog.dismiss();
-            pDialog = null;
+            default: {
+                return super.onOptionsItemSelected(item);
+            }
         }
     }
 
     private void setNews(String currentLangID) {
-        List<org.nrum.ormmodel.News> ormNewsList = org.nrum.ormmodel.News.getAllNews();
-        newsList.clear();
+        List<org.nrum.ormmodel.News> ormNewsList = org.nrum.ormmodel.News.getNews(Constant.LIMIT_MAIN_NEWS_FETCH);
+        mainNewsItems.clear();
         for (org.nrum.ormmodel.News item:ormNewsList) {
             News news = new News();
             JSONObject objTitle     = MFunction.jsonStrToObj(item.title);
@@ -179,14 +143,12 @@ public class NewsListActivity extends AppCompatActivity implements SwipeRefreshL
             /*Adding news to newsList*/
             news.setNewsID(item.news_id);
             news.setTitle(mTitle);
-            news.setDetail(mDetail);
-            news.setFeatureImage(item.feature_image);
             news.setPublishDateFrom(finalDate);
             news.setCategoryName(mCategory);
-            newsList.add(news);
+            mainNewsItems.add(news);
         }
         // notifying list adapter about data changes
         // so that it renders the list view with updated data
-        adapter.notifyDataSetChanged();
+        mainNewsListViewAdapter.notifyDataSetChanged();
     }
 }

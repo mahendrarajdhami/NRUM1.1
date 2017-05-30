@@ -18,7 +18,8 @@ public class Constant {
 
     public static final int BANNER_TRANSITION_DURATION = 5000;
     public static final int NOTICE_BUTTON_BLINK_DURATION = 5000;
-    public static final int BANNER_FETCH_LIMIT = 3;
+    public static final int LIMIT_BANNER_FETCH = 3;
+    public static final int LIMIT_MAIN_NEWS_FETCH =4;
 
     public static final String  CURRENT_LANG_ID_2 = "2";
     public static final String  CURRENT_LANG_ID_3 = "3";

@@ -125,4 +125,7 @@
     <string name="action_rate_app">Rate Our App</string>
     <string name="action_likeus_on_facebook">Like Us On Facebook</string>
     <string name="dmenu_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
