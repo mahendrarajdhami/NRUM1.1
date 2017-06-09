@@ -18,7 +18,7 @@ import com.android.volley.Cache;
 import com.android.volley.RequestQueue;
 
 import org.json.JSONObject;
-import org.nrum.adapter.CustomListAdapter;
+import org.nrum.adapter.CustomNewsListAdapter;
 import org.nrum.app.AppController;
 import org.nrum.model.News;
 import org.nrum.util.MDateConversion;
@@ -41,7 +41,7 @@ public class NewsListActivity extends AppCompatActivity implements SwipeRefreshL
     private List<News> newsList = new ArrayList<News>();
     private ListView listView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private CustomListAdapter adapter;
+    private CustomNewsListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class NewsListActivity extends AppCompatActivity implements SwipeRefreshL
         currentLangID = sharedPreferences.getString("lang_list", "1");
         ListView listView = (ListView) findViewById(R.id.list);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
-        adapter = new CustomListAdapter(this, newsList);
+        adapter = new CustomNewsListAdapter(this, newsList);
         listView.setAdapter(adapter);
         swipeRefreshLayout.setOnRefreshListener(this);
         // click event for list item

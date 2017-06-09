@@ -13,8 +13,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import org.json.JSONObject;
-import org.nrum.adapter.CustomMainNewsListAdapter;
-import org.nrum.model.News;
+import org.nrum.adapter.CustomMainPostListAdapter;
+import org.nrum.model.Post;
 import org.nrum.util.MDateConversion;
 import org.nrum.util.MFunction;
 
@@ -25,13 +25,13 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-public class NewsFragment extends Fragment {
-    private static String currentLangID = "1";
-    private List<News> mainNewsItems = new ArrayList<News>();
-    private ListView mainNewsListView;
-    private CustomMainNewsListAdapter mainNewsListViewAdapter;
 
-    public NewsFragment() {
+public class PostFragment extends Fragment {
+    private static String currentLangID = "1";
+    private List<Post> mainPostItems = new ArrayList<Post>();
+    private ListView mainPostListView;
+    private CustomMainPostListAdapter mainPostListViewAdapter;
+    public PostFragment() {
         // Required empty public constructor
     }
 
@@ -44,34 +44,32 @@ public class NewsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(NewsFragment.this.getActivity());
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(PostFragment.this.getActivity());
         this.currentLangID = sharedPreferences.getString("lang_list", "1");
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_news, container, false);
-        ListView mainNewsListView = (ListView) view.findViewById(R.id.mainNewsList);
-        mainNewsListViewAdapter = new CustomMainNewsListAdapter(NewsFragment.this.getActivity(),mainNewsItems);
-        mainNewsListView.setAdapter(mainNewsListViewAdapter);
-
+        View view = inflater.inflate(R.layout.fragment_post, container, false);
+        ListView mainPostListView = (ListView) view.findViewById(R.id.mainProgList);
+        mainPostListViewAdapter = new CustomMainPostListAdapter(PostFragment.this.getActivity(),mainPostItems);
+        mainPostListView.setAdapter(mainPostListViewAdapter);
         // click event for list item
-        mainNewsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mainPostListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                int newsID = mainNewsItems.get(position).getNewsID();
-                Intent intent = new Intent(NewsFragment.this.getActivity(),NewsDetailActivity.class);
-                intent.putExtra("newsID", String.valueOf(newsID));
+                int postID = mainPostItems.get(position).getPostID();
+                Intent intent = new Intent(PostFragment.this.getActivity(),PostDetailActivity.class);
+                intent.putExtra("postID", String.valueOf(postID));
                 startActivity(intent);
             }
         });
-        setNews(currentLangID);
+        setPosts(currentLangID);
         return view;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-
             case R.id.action_sync: {
-                setNews(currentLangID);
+                setPosts(currentLangID);
                 return true;
             }
             default: {
@@ -79,21 +77,20 @@ public class NewsFragment extends Fragment {
             }
         }
     }
-
-    private void setNews(String currentLangID) {
-        List<org.nrum.ormmodel.News> ormNewsList = org.nrum.ormmodel.News.getNews(Constant.LIMIT_MAIN_NEWS_FETCH);
-        mainNewsItems.clear();
-        for (org.nrum.ormmodel.News item:ormNewsList) {
-            News news = new News();
-            JSONObject objTitle     = MFunction.jsonStrToObj(item.title);
+    private void setPosts(String currentLangID) {
+        List<org.nrum.ormmodel.Post> ormPostList = org.nrum.ormmodel.Post.getPosts(Constant.LIMIT_MAIN_NEWS_FETCH);
+        mainPostItems.clear();
+        for (org.nrum.ormmodel.Post item:ormPostList) {
+            Post post = new Post();
+            JSONObject objTitle     = MFunction.jsonStrToObj(item.post_title);
             JSONObject objDetail    = MFunction.jsonStrToObj(item.details);
             JSONObject objCategory  = MFunction.jsonStrToObj(item.category_name);
             String mCategory        = MFunction.getFormatedString(objCategory,"category_name", currentLangID,50);
-            String mTitle           = MFunction.getFormatedString(objTitle,"title", currentLangID,100);
+            String mTitle           = MFunction.getFormatedString(objTitle,"post_title", currentLangID,100);
             String mDetail          = MFunction.getFormatedString(objDetail,"detail", currentLangID,150);
             String mPublishDateFrom = item.publish_date_from;
 
-            SimpleDateFormat fromDFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat fromDFormat=new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat toDFormat=new SimpleDateFormat("yyy-MM-dd");
             String finalDate= null;
             int fromYear=0;
@@ -138,14 +135,14 @@ public class NewsFragment extends Fragment {
                 }
             }
             /*Adding news to newsList*/
-            news.setNewsID(item.news_id);
-            news.setTitle(mTitle);
-            news.setPublishDateFrom(finalDate);
-            news.setCategoryName(mCategory);
-            mainNewsItems.add(news);
+            post.setPostID(item.post_id);
+            post.setPostTitle(mTitle);
+            post.setPublishDateFrom(finalDate);
+            post.setCategoryName(mCategory);
+            mainPostItems.add(post);
         }
         // notifying list adapter about data changes
         // so that it renders the list view with updated data
-        mainNewsListViewAdapter.notifyDataSetChanged();
+        mainPostListViewAdapter.notifyDataSetChanged();
     }
 }

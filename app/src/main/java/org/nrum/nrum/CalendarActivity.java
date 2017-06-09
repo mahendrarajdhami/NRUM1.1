@@ -30,7 +30,6 @@ public class CalendarActivity extends AppCompatActivity {
     MaterialCalendarView widget;
 
     ViewPager pager;
-    ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
     CharSequence Titles[] = {"Home", "Events"};
     int Numboftabs = 2;

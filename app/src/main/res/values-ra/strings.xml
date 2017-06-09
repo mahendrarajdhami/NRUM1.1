@@ -36,4 +36,11 @@
     <string name="no_internet_connection">इन्टरनेट नैछा हौ !</string>
     <string name="server_not_responding">सर्भरमे समस्याके कारण वेबसाइट लोड नैभ्यारहल्छा!</string>
     <string name="ago">अगा</string>
+    <string name="title_activity_about">हाम्रो  बारेमा</string>
+    <string name="tab_latest_news">ताजा सामाचार</string>
+    <string name="tab_latest_programs">आउर पोस्टसब</string>
+    <string name="btn_about">हम्रार्के बरेमे</string>
+    <string name="dmenu_post">पोस्ट</string>
+    <string name="title_activity_post_list">पोस्ट</string>
+    <string name="title_activity_post_detail">पुरा पोस्ट</string>
 </resources>

@@ -36,4 +36,11 @@
     <string name="no_internet_connection">इन्टरनेट कनेक्सन छैन</string>
     <string name="server_not_responding">सर्भरमा समस्या भएकोले गर्दा वेबसाइट लोड हुनसकेन!</string>
     <string name="ago">पहिले</string>
+    <string name="title_activity_about">हाम्रो  बारेमा</string>
+    <string name="btn_about">हाम्रो  बारेमा</string>
+    <string name="tab_latest_news">ताजा सामाचार</string>
+    <string name="tab_latest_programs">अरु पोस्टहरु</string>
+    <string name="dmenu_post">पोस्ट</string>
+    <string name="title_activity_post_list">पोस्ट</string>
+    <string name="title_activity_post_detail">पुरा पोस्ट</string>
 </resources>

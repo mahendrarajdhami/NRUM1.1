@@ -2,6 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.nrum.nrum.ProgramFragment">
-    <include layout="@layout/content_main_prog_list" />
+    tools:context=".PostFragment">
+    <include layout="@layout/content_main_post_list" />
 </FrameLayout>

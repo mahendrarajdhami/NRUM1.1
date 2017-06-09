@@ -11,7 +11,6 @@ import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -23,16 +22,15 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
-import org.nrum.ormmodel.News;
+import org.nrum.ormmodel.Post;
 import org.nrum.util.MFunction;
 
-public class NewsDetailActivity extends AppCompatActivity {
+public class PostDetailActivity extends AppCompatActivity {
 
-    String newsID = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_news_detail);
+        setContentView(R.layout.activity_post_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -40,14 +38,14 @@ public class NewsDetailActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         final String  currentLangID = sharedPreferences.getString("lang_list", "1");
         // get passed var
-        String newsIDStr = getIntent().getStringExtra("newsID");
-        News news = News.getItem(Integer.parseInt(newsIDStr));
-        String featureImage = news.feature_image;
-        JSONObject objTitle = MFunction.jsonStrToObj(news.title);
-        JSONObject objDetail = MFunction.jsonStrToObj(news.details);
+        String postIDStr = getIntent().getStringExtra("postID");
+        Post post = Post.getItem(Integer.parseInt(postIDStr));
+        String featureImage = post.banner_image;
+        JSONObject objTitle = MFunction.jsonStrToObj(post.post_title);
+        JSONObject objDetail = MFunction.jsonStrToObj(post.details);
         String mTitle = MFunction.getFormatedString(objTitle,"title", currentLangID,200);
         String mDetail = MFunction.getFormatedString(objDetail,"detail", currentLangID);
-        String url = Constant.UPLOAD_PATH_NEWS + "/750_";
+        String url = Constant.UPLOAD_PATH_POST + "/750_";
         ImageView imageView = (ImageView)findViewById(R.id.featureImage);
         TextView textTitle = (TextView)findViewById(R.id.title);
         TextView textDetail = (TextView)findViewById(R.id.detail);
@@ -58,8 +56,6 @@ public class NewsDetailActivity extends AppCompatActivity {
         } else {
 
             Picasso.with(getApplicationContext()).load(url.concat(featureImage)).centerCrop().fit()
-            .placeholder(R.mipmap.nrum_logo)
-            .error(R.mipmap.nrum_logo)
             .into(imageView, new com.squareup.picasso.Callback() {
                 @Override
                 public void onSuccess() {
@@ -75,8 +71,6 @@ public class NewsDetailActivity extends AppCompatActivity {
         textTitle.setText(mTitle);
         textDetail.setText(mDetail);
     }
-
-    private ShareActionProvider mShareActionProvider;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -129,10 +123,5 @@ public class NewsDetailActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-    // Somewhere in the application.
-    public void doShare(Intent shareIntent) {
-        // When you want to share set the share intent.
-        mShareActionProvider.setShareIntent(shareIntent);
     }
 }

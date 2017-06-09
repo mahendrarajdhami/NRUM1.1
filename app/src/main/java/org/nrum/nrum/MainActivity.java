@@ -1,9 +1,12 @@
 package org.nrum.nrum;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
@@ -50,15 +53,15 @@ public class MainActivity extends AppCompatActivity
     String msg = "LogInfo : ";
     private TabLayout tabLayout;
     private ViewPager viewPager;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mDemoSlider = (SliderLayout)findViewById(R.id.slider);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -70,18 +73,15 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         /*For Tab Layout*/
-//        viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager = (android.support.v4.view.ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
-
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         currentLangID = sharedPreferences.getString("lang_list", "1");
 
         if(MFunction.isInternetAvailable(getApplicationContext())) {
-            MFunction.fetchBanners();
-            MFunction.fetchNotice();
+            MFunction.fetchAllData();
         } else {
             Toast.makeText(MainActivity.this,getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
         }
@@ -130,8 +130,32 @@ public class MainActivity extends AppCompatActivity
             case R.id.action_sync: {
                 Toast.makeText(MainActivity.this, getText(R.string.loading), Toast.LENGTH_LONG).show();
                 MFunction.fetchAllData();
+                setSlider(currentLangID);
                 setNoticeText(currentLangID);
                 return false;
+            }
+            case R.id.action_contact: {
+                Intent mIntent = new Intent(Intent.ACTION_SENDTO);
+                mIntent.setData(Uri.parse("mailto:"));
+                mIntent.putExtra(Intent.EXTRA_EMAIL  , new String[] {Constant.NRUM_EMAIL});
+                mIntent.putExtra(Intent.EXTRA_SUBJECT, "");
+                startActivity(Intent.createChooser(mIntent, getString(R.string.send_email_via)));
+                return true;
+            }
+            case R.id.action_rate_app: {
+                Context context = getApplicationContext();
+                String appID = context.getPackageName();
+                Uri uri = Uri.parse("market://details?id=" + appID);
+                Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+                goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                        Intent.FLAG_ACTIVITY_NEW_DOCUMENT |
+                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                try {
+                    startActivity(goToMarket);
+                } catch (ActivityNotFoundException e) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("http://play.google.com/store/apps/details?id=" + appID)));
+                }
+                return true;
             }
             default: {
                 return super.onOptionsItemSelected(item);
@@ -153,6 +177,11 @@ public class MainActivity extends AppCompatActivity
             }
             case R.id.nav_news :{
                 Intent intent = new Intent(MainActivity.this,NewsListActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.nav_post :{
+                Intent intent = new Intent(MainActivity.this,PostListActivity.class);
                 startActivity(intent);
                 break;
             }
@@ -190,9 +219,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     // click events for button
-    public void openNewsList(View view)
+    public void openAbout(View view)
     {
-        Intent intent = new Intent(MainActivity.this, NewsListActivity.class);
+        Intent intent = new Intent(MainActivity.this, AboutActivity.class);
         startActivity(intent);
     }
 
@@ -251,8 +280,8 @@ public class MainActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new NewsFragment(), "News");
-        adapter.addFragment(new ProgramFragment(), "Programs");
+        adapter.addFragment(new NewsFragment(), getString(R.string.tab_latest_news));
+        adapter.addFragment(new PostFragment(), getString(R.string.tab_latest_programs));
         viewPager.setAdapter(adapter);
     }
 

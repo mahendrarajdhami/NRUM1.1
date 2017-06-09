@@ -49,13 +49,16 @@ public class MFunction {
         }
     }
     public static JSONObject jsonStrToObj(String jsonString){
-        try {
-            JSONObject jsonObject = new JSONObject(jsonString);
-            return jsonObject;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
+        if(jsonString != null){
+            try {
+                JSONObject jsonObject = new JSONObject(jsonString);
+                return jsonObject;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
+        return null;
     }
 
     public static String getFormatedString(JSONObject jsonObj, String key, String currentLangID,int trimLimit){
@@ -95,14 +98,18 @@ public class MFunction {
         fetchBanners();
         fetchNotice();
         fetchNews();
+        fetchPages();
+        fetchPosts();
     }
 
     public static void fetchBanners(){
         // Creating volley request obj for Banner
+
         JsonArrayRequest bannerReq = new JsonArrayRequest(Constant.BANNER_API,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
+                        Log.d("inside banner response","Banners");
                         ActiveAndroid.beginTransaction();
                         for (int i = 0; i < response.length(); i++) {
                             try {
@@ -204,6 +211,81 @@ public class MFunction {
         AppController.getInstance().addToRequestQueue(newsReq);
     }
 
+    public static void fetchPages() {
+        // Creating volley request obj
+        JsonArrayRequest pageReq = new JsonArrayRequest(Constant.PAGE_API,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // Parsing json
+                        ActiveAndroid.beginTransaction();
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject obj = response.getJSONObject(i);
+                                org.nrum.ormmodel.Page ormPage = new org.nrum.ormmodel.Page();
+                                // saving to sqllite database
+                                ormPage.page_id = obj.getInt("page_id");
+                                ormPage.page_title = (obj.has("page_title"))?obj.getString("page_title"):null;
+                                ormPage.details = (obj.has("details"))?obj.getString("details"):null;
+                                ormPage.banner_image = obj.getString("banner_image");
+                                ormPage.publish_date= obj.getString("publish_date");
+                                ormPage.display_order = obj.getInt("display_order");
+                                ormPage.save();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        ActiveAndroid.setTransactionSuccessful();
+                        ActiveAndroid.endTransaction();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        });
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(pageReq);
+    }
+    public static void fetchPosts() {
+        // Creating volley request obj
+        JsonArrayRequest postReq = new JsonArrayRequest(Constant.POST_API,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // Parsing json
+                        ActiveAndroid.beginTransaction();
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject obj = response.getJSONObject(i);
+                                org.nrum.ormmodel.Post ormPost = new org.nrum.ormmodel.Post();
+                                // saving to sqllite database
+                                ormPost.post_id = obj.getInt("post_id");
+                                ormPost.post_title = (obj.has("post_title"))?obj.getString("post_title"):null;
+                                ormPost.details = (obj.has("details"))?obj.getString("details"):null;
+                                ormPost.banner_image = obj.getString("banner_image");
+                                ormPost.publish_date_from= obj.getString("publish_date");
+                                ormPost.display_order = obj.getInt("display_order");
+                                ormPost.category_name = obj.getString("category_name");
+                                ormPost.save();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        ActiveAndroid.setTransactionSuccessful();
+                        ActiveAndroid.endTransaction();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        });
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(postReq);
+    }
 
     /* Fetch News without showing circular progress bar*/
     public static void fetchNews(final SwipeRefreshLayout swipeRefreshLayout) {

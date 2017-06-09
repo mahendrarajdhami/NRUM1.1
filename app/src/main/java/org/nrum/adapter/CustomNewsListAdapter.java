@@ -22,13 +22,13 @@ import java.util.List;
 /**
  * Created by rajdhami on 12/25/2016.
  */
-public class CustomListAdapter extends BaseAdapter {
+public class CustomNewsListAdapter extends BaseAdapter {
     private Activity activity;
     private LayoutInflater inflater;
     private List<News> newsItems;
     ImageLoader imageLoader = AppController.getInstance().getImageLoader();
 
-    public CustomListAdapter(Activity activity, List<News> newsItems) {
+    public CustomNewsListAdapter(Activity activity, List<News> newsItems) {
         this.activity = activity;
         this.newsItems = newsItems;
     }

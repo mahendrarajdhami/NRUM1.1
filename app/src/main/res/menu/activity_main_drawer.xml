@@ -11,9 +11,9 @@
             android:icon="@drawable/ic_news_24dp"
             android:title="@string/dmenu_news" />
         <item
-            android:id="@+id/nav_events"
+            android:id="@+id/nav_post"
             android:icon="@drawable/ic_events_24dp"
-            android:title="@string/dmenu_event" />
+            android:title="@string/dmenu_post" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
