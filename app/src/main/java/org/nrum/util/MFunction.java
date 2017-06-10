@@ -332,4 +332,50 @@ public class MFunction {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(newsReq);
     }
+
+    /* Fetch Posts without showing circular progress bar*/
+    public static void fetchPosts(final SwipeRefreshLayout swipeRefreshLayout) {
+        // showing refresh animation before making http call
+        swipeRefreshLayout.setRefreshing(true);
+        // Creating volley request obj
+        JsonArrayRequest postReq = new JsonArrayRequest(Constant.POST_API,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        if (response.length()>0) {
+                            // Parsing json
+                            ActiveAndroid.beginTransaction();
+                            for (int i = 0; i < response.length(); i++) {
+                                try {
+                                    JSONObject obj = response.getJSONObject(i);
+                                    org.nrum.ormmodel.Post ormPost = new org.nrum.ormmodel.Post();
+                                    // saving to sqllite database
+                                    ormPost.post_id = obj.getInt("news_id");
+                                    ormPost.post_title = (obj.has("news_title"))?obj.getString("news_title"):null;
+                                    ormPost.details = (obj.has("details"))?obj.getString("details"):null;
+                                    ormPost.banner_image = obj.getString("feature_image");
+                                    ormPost.display_order = obj.getInt("display_order");
+                                    ormPost.publish_date_from = obj.getString("publish_date_from");
+                                    ormPost.category_name = obj.getString("category_name");
+                                    ormPost.save();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            ActiveAndroid.setTransactionSuccessful();
+                            ActiveAndroid.endTransaction();
+                        }
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(postReq);
+    }
 }

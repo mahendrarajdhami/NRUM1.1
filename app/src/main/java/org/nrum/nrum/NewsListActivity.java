@@ -87,7 +87,7 @@ public class NewsListActivity extends AppCompatActivity implements SwipeRefreshL
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if(CheckNetwork.isInternetAvailable(getApplicationContext())) {
+        if(MFunction.isInternetAvailable(getApplicationContext())) {
             MFunction.fetchNews(swipeRefreshLayout);
         } else {
             Toast.makeText(NewsListActivity.this, getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();

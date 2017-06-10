@@ -4,18 +4,18 @@ package org.nrum.model;
  * Created by rajdhami on 6/1/2017.
  */
 public class Post {
-    private String post_title, bannerImage, detail,category_name, publish_date_from;
+    private String post_title, bannerImage, detail,category_name, publish_date;
     private int post_id;
     public Post () {
 
     }
-    public Post(int post_id, String name, String bannerImage, String detail, String category_name, String publish_date_from) {
+    public Post(int post_id, String name, String bannerImage, String detail, String category_name, String publish_date) {
         this.post_id = post_id;
         this.post_title = name;
         this.bannerImage = bannerImage;
         this.detail = detail;
         this.category_name = category_name;
-        this.publish_date_from = publish_date_from;
+        this.publish_date = publish_date;
     }
 
     public int getPostID() {
@@ -59,10 +59,10 @@ public class Post {
     }
 
     public String getPublishDateFrom() {
-        return publish_date_from;
+        return publish_date;
     }
 
-    public void setPublishDateFrom(String publish_date_from) {
-        this.publish_date_from = publish_date_from;
+    public void setPublishDateFrom(String publish_date) {
+        this.publish_date = publish_date;
     }
 }

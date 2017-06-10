@@ -260,6 +260,7 @@ public class MainActivity extends AppCompatActivity
 
     private void setSlider(final String currentLangID) {
         List<Banner> ormBannerList = Banner.getAllBanners();
+        mDemoSlider.removeAllSliders();
         for (Banner item:ormBannerList) {
             JSONObject objDescription = MFunction.jsonStrToObj(item.description);
             String mDescription = MFunction.getFormatedString(objDescription,"description", currentLangID,150);
