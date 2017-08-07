@@ -6,7 +6,8 @@ package org.nrum.nrum;
 public class Constant {
 
     public static final String NRUM_EMAIL = "info.nrum@gmail.com";
-    public static final String SERVER = "http://192.168.0.100/bs.dev/nrum";
+    public static final String SERVER = "http://www.nrum.org";
+    //public static final String SERVER = "http://192.168.0.100/bs.dev/nrum";
 //    public static final String SERVER = "http://192.168.100.2/bs.dev/nrum";
     public static final String API_END = SERVER + "/dataProvider";
     public static final String NEWS_API = API_END + "/newsApi/lists";
