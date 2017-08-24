@@ -14,6 +14,11 @@
             android:id="@+id/nav_post"
             android:icon="@drawable/ic_events_24dp"
             android:title="@string/dmenu_post" />
+
+        <item
+            android:id="@+id/nav_faq"
+            android:icon="@drawable/ic_faq_24dp"
+            android:title="@string/dmenu_faq" />
         <item
             android:id="@+id/nav_gallery"
             android:icon="@drawable/ic_menu_gallery"
@@ -29,7 +34,7 @@
             android:title="@string/dmenu_calendar" />
         <item
             android:id="@+id/nav_wordbank"
-            android:icon="@drawable/ic_menu_calendar"
+            android:icon="@drawable/ic_menu_wordbank"
             android:title="@string/dmenu_wordbank" />
         <item
             android:id="@+id/nav_settings"

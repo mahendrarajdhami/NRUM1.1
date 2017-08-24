@@ -67,7 +67,7 @@
             android:layout_weight="1"
             android:onClick="openEventList"
             android:text="@string/ic_folder_24dp"
-            android:drawableLeft="@drawable/ic_events_24dp"
+            android:drawableLeft="@drawable/ic_faq_24dp"
             android:layout_alignParentBottom="true">
         </Button>
         <Button android:id="@+id/btnDocs"

@@ -17,12 +17,12 @@
     <string name="title_activity_calendar">Calendar</string>
     <string name="title_activity_news_detail">Detail News</string>
     <string name="title_activity_about">About Us</string>
-    <string name="title_activity_post_list">Posts</string>
-    <string name="title_activity_post_detail">Detail Post</string>
+    <string name="title_activity_post_list">Programs</string>
+    <string name="title_activity_post_detail">Program</string>
 
     <!--Home Page button text-->
     <string name="ic_archive_24dp">News</string>
-    <string name="ic_folder_24dp">Events</string>
+    <string name="ic_folder_24dp">FAQ</string>
     <string name="ic_downloads_24dp">Docs</string>
 
     <!--Drawable Texts-->
@@ -32,7 +32,7 @@
     <string name="nepal_rajdhami_utthan_mancha">Nepal Rajdhami Utthan Mancha</string>
     <string name="dmenu_home">Home</string>
     <string name="dmenu_news">News</string>
-    <string name="dmenu_post">Posts</string>
+    <string name="dmenu_post">Programs</string>
     <string name="dmenu_gallery">Gallery</string>
     <string name="dmenu_docs">Docs</string>
     <string name="dmenu_calendar">Calendar</string>
@@ -129,8 +129,9 @@
     <string name="action_likeus_on_facebook">Like Us On Facebook</string>
     <string name="dmenu_settings">Settings</string>
     <string name="tab_latest_news">Latest News</string>
-    <string name="tab_latest_programs">Other Posts</string>
+    <string name="tab_latest_programs">Latest Programs</string>
     <string name="send_email_via">Send Email Via..</string>
     <string name="btn_news">News</string>
+    <string name="dmenu_faq">FAQ</string>
 
 </resources>
