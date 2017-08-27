@@ -185,6 +185,11 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
             }
+            case R.id.nav_faq :{
+                Intent intent = new Intent(MainActivity.this,FaqListActivity.class);
+                startActivity(intent);
+                break;
+            }
             case R.id.nav_gallery :{
                 Toast.makeText(MainActivity.this, R.string.under_construction, Toast.LENGTH_SHORT).show();
                 break;
@@ -225,9 +230,9 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    public void openEventList(View view)
+    public void openFaqList(View view)
     {
-        Intent intent = new Intent(MainActivity.this, NewsListActivity.class);
+        Intent intent = new Intent(MainActivity.this, FaqListActivity.class);
         startActivity(intent);
     }
 

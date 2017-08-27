@@ -133,5 +133,5 @@
     <string name="send_email_via">Send Email Via..</string>
     <string name="btn_news">News</string>
     <string name="dmenu_faq">FAQ</string>
-
+    <string name="title_activity_faq_list">FAQ</string>
 </resources>

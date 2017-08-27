@@ -60,18 +60,18 @@
             android:onClick="openAbout"
             android:layout_alignParentBottom="true">
         </Button>
-        <Button android:id="@+id/btnEvents"
+        <Button android:id="@+id/btnFaq"
             android:layout_alignRight="@id/btnAbout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="openEventList"
+            android:onClick="openFaqList"
             android:text="@string/ic_folder_24dp"
             android:drawableLeft="@drawable/ic_faq_24dp"
             android:layout_alignParentBottom="true">
         </Button>
         <Button android:id="@+id/btnDocs"
-            android:layout_alignRight="@id/btnEvents"
+            android:layout_alignRight="@id/btnFaq"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"

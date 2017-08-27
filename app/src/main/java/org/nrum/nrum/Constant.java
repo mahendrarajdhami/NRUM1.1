@@ -15,6 +15,7 @@ public class Constant {
     public static final String NOTICE_API = API_END + "/noticeApi/lists";
     public static final String PAGE_API = API_END + "/pageApi/lists";
     public static final String POST_API = API_END + "/postApi/lists";
+    public static final String FAQ_API = API_END + "/faqApi/lists";
 
     public static final String UPLOAD_PATH = SERVER + "/uploads";
     public static final String UPLOAD_PATH_BANNER = UPLOAD_PATH + "/company_1/banner";
