@@ -54,7 +54,7 @@ public class FaqListActivity extends AppCompatActivity implements SwipeRefreshLa
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 int faqID = faqList.get(position).getFaqID();
-                Intent intent = new Intent(FaqListActivity.this,NewsDetailActivity.class);
+                Intent intent = new Intent(FaqListActivity.this,FaqDetailActivity.class);
                 intent.putExtra("faqID", String.valueOf(faqID));
                 startActivity(intent);
             }

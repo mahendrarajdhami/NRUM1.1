@@ -49,8 +49,8 @@ public class Faq extends Model{
         return result;
     }
 
-    public static Faq getLatestFaq() {
-        Faq result = new Select().from(Faq.class).orderBy("display_order DESC").executeSingle();
+    public static Faq getItem(int ID) {
+        Faq result = new Select().from(Faq.class).where("faq_id = ?", ID).executeSingle();
         return result;
     }
 }

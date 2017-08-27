@@ -127,11 +127,11 @@
             android:name=".PostDetailActivity"
             android:configChanges="layoutDirection|locale"
             android:label="@string/title_activity_post_detail"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".PostListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.nrum.nrum.MainActivity" />
+                android:value="org.nrum.nrum.PostListActivity" />
         </activity>
         <activity
             android:name=".PostListActivity"
@@ -152,5 +152,16 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.nrum.nrum.MainActivity" />
+
+        <activity
+            android:name=".FaqDetailActivity"
+            android:configChanges="layoutDirection|locale"
+            android:label="@string/title_activity_faq_detail"
+            android:parentActivityName=".FaqListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.nrum.nrum.FaqListActivity" />
+        </activity>
     </application>
 </manifest>

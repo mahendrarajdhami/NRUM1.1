@@ -134,4 +134,5 @@
     <string name="btn_news">News</string>
     <string name="dmenu_faq">FAQ</string>
     <string name="title_activity_faq_list">FAQ</string>
+    <string name="title_activity_faq_detail">FAQ Detail</string>
 </resources>
