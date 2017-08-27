@@ -76,6 +76,7 @@ public class NewsListActivity extends AppCompatActivity implements SwipeRefreshL
 
         // action for refreshWeb
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.refreshWeb);
+        fab.setAlpha(0.7f);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
