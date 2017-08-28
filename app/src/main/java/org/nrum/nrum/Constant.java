@@ -7,15 +7,16 @@ public class Constant {
 
     public static final String NRUM_EMAIL = "info.nrum@gmail.com";
     public static final String SERVER = "http://www.nrum.org";
+    public static final String API_ID_ACCESS_TOKEN_STRING = "?app_id=NRUM-ANDROID-APP&access_token=qwertyuiopasdfghjklzxcv";
     //public static final String SERVER = "http://192.168.0.100/bs.dev/nrum";
 //    public static final String SERVER = "http://192.168.100.2/bs.dev/nrum";
     public static final String API_END = SERVER + "/dataProvider";
     public static final String NEWS_API = API_END + "/newsApi/lists";
-    public static final String BANNER_API = API_END + "/bannerApi/lists";
-    public static final String NOTICE_API = API_END + "/noticeApi/lists";
-    public static final String PAGE_API = API_END + "/pageApi/lists";
-    public static final String POST_API = API_END + "/postApi/lists";
-    public static final String FAQ_API = API_END + "/faqApi/lists";
+    public static final String BANNER_API = API_END + "/bannerApi/lists"+API_ID_ACCESS_TOKEN_STRING;
+    public static final String NOTICE_API = API_END + "/noticeApi/lists"+API_ID_ACCESS_TOKEN_STRING;
+    public static final String PAGE_API = API_END + "/pageApi/lists"+API_ID_ACCESS_TOKEN_STRING;
+    public static final String POST_API = API_END + "/postApi/lists"+API_ID_ACCESS_TOKEN_STRING;
+    public static final String FAQ_API = API_END + "/faqApi/lists"+API_ID_ACCESS_TOKEN_STRING;
 
     public static final String UPLOAD_PATH = SERVER + "/uploads";
     public static final String UPLOAD_PATH_BANNER = UPLOAD_PATH + "/company_1/banner";

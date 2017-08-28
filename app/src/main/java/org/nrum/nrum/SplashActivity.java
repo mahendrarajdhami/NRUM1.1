@@ -7,10 +7,13 @@ import android.os.Bundle;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
+
+import org.nrum.util.MFunction;
 
 /**
  * Created by rajdhami on 12/25/2016.
@@ -54,6 +57,11 @@ public class SplashActivity extends Activity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        if(MFunction.isInternetAvailable(getApplicationContext())) {
+            MFunction.fetchAllData();
+        } else {
+            Toast.makeText(SplashActivity.this,getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
