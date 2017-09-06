@@ -39,6 +39,7 @@
             android:backgroundTint="@color/colorPrimaryDark"
             android:textStyle="bold"
             android:gravity="left"
+            android:onClick="showNotification"
             android:text="This is to notify all members to participate in Picnic Program." />
 
     </LinearLayout>

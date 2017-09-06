@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -247,13 +248,30 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
+    public void showNotification(View view){
+        Button b = (Button)view;
+        String notice = b.getText().toString();
+        notice = b.getTag().toString();
+        final Toast noticeToast = Toast.makeText(MainActivity.this,notice, Toast.LENGTH_LONG);
+        noticeToast.show();
+        new CountDownTimer(5, 1000)
+        {
+            public void onTick(long millisUntilFinished) {noticeToast.show();}
+            public void onFinish() {noticeToast.show();}
+
+        }.start();
+    }
+
     private void setNoticeText(final String currentLangID){
         final Button noticeButton = (Button)findViewById(R.id.noticeButton);
         Notice latestNotice = Notice.getLatestNotice();
         String mTitle = null;
+        String mDetail = null;
         if (latestNotice != null) {
             JSONObject objTitle = MFunction.jsonStrToObj(latestNotice.notice_title);
-            mTitle = MFunction.getFormatedString(objTitle,"notice_title", currentLangID,200);
+            JSONObject objDetail = MFunction.jsonStrToObj(latestNotice.detail);
+            mTitle = MFunction.getFormatedString(objTitle,"notice_title", currentLangID,80);
+            mDetail = MFunction.getFormatedString(objDetail,"detail", currentLangID);
             Animation mAnimation = new AlphaAnimation(1, 0);
             mAnimation.setDuration(Constant.NOTICE_BUTTON_BLINK_DURATION);
             mAnimation.setInterpolator(new LinearInterpolator());
@@ -264,6 +282,11 @@ public class MainActivity extends AppCompatActivity
                 noticeButton.setText(mTitle);
             } else {
                 noticeButton.setText(getString(R.string.no_latest_notice));
+            }
+            if(mDetail != null) {
+                noticeButton.setTag(mDetail);
+            } else {
+                noticeButton.setTag(getString(R.string.no_latest_notice));
             }
         }
     }

@@ -17,6 +17,7 @@ public class Constant {
     public static final String PAGE_API = API_END + "/pageApi/lists"+API_ID_ACCESS_TOKEN_STRING;
     public static final String POST_API = API_END + "/postApi/lists"+API_ID_ACCESS_TOKEN_STRING;
     public static final String FAQ_API = API_END + "/faqApi/lists"+API_ID_ACCESS_TOKEN_STRING;
+    public static final String MEMBER_API = API_END + "/staffApi/lists"+API_ID_ACCESS_TOKEN_STRING;
 
     public static final String UPLOAD_PATH = SERVER + "/uploads";
     public static final String UPLOAD_PATH_BANNER = UPLOAD_PATH + "/company_1/banner";

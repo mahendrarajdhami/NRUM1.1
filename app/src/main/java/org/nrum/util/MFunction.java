@@ -101,6 +101,7 @@ public class MFunction {
         fetchPages();
         fetchPosts();
         fetchFaq();
+        fetchMember();
     }
 
     public static void fetchBanners(){
@@ -291,6 +292,42 @@ public class MFunction {
     }
 
     public static void fetchFaq() {
+        // Creating volley request obj
+        JsonArrayRequest faqReq = new JsonArrayRequest(Constant.FAQ_API,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        // Parsing json
+                        ActiveAndroid.beginTransaction();
+                        for (int i = 0; i < response.length(); i++) {
+                            try {
+                                JSONObject obj = response.getJSONObject(i);
+                                org.nrum.ormmodel.Faq ormFaq = new org.nrum.ormmodel.Faq();
+                                // saving to sqllite database
+                                ormFaq.faq_id = obj.getInt("faq_id");
+                                ormFaq.question = (obj.has("question"))?obj.getString("question"):null;
+                                ormFaq.answer = (obj.has("answer"))?obj.getString("answer"):null;
+                                ormFaq.display_order = obj.getInt("display_order");
+                                ormFaq.save();
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        ActiveAndroid.setTransactionSuccessful();
+                        ActiveAndroid.endTransaction();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                VolleyLog.d(TAG, "Error: " + error.getMessage());
+            }
+        });
+
+        // Adding request to request queue
+        AppController.getInstance().addToRequestQueue(faqReq);
+    }
+
+    public static void fetchMember() {
         // Creating volley request obj
         JsonArrayRequest faqReq = new JsonArrayRequest(Constant.FAQ_API,
                 new Response.Listener<JSONArray>() {
