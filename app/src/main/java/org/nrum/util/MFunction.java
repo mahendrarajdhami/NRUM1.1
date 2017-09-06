@@ -329,7 +329,7 @@ public class MFunction {
 
     public static void fetchMember() {
         // Creating volley request obj
-        JsonArrayRequest faqReq = new JsonArrayRequest(Constant.FAQ_API,
+        JsonArrayRequest memberReq = new JsonArrayRequest(Constant.MEMBER_API,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {
@@ -338,13 +338,17 @@ public class MFunction {
                         for (int i = 0; i < response.length(); i++) {
                             try {
                                 JSONObject obj = response.getJSONObject(i);
-                                org.nrum.ormmodel.Faq ormFaq = new org.nrum.ormmodel.Faq();
+                                org.nrum.ormmodel.Member ormMember = new org.nrum.ormmodel.Member();
                                 // saving to sqllite database
-                                ormFaq.faq_id = obj.getInt("faq_id");
-                                ormFaq.question = (obj.has("question"))?obj.getString("question"):null;
-                                ormFaq.answer = (obj.has("answer"))?obj.getString("answer"):null;
-                                ormFaq.display_order = obj.getInt("display_order");
-                                ormFaq.save();
+                                ormMember.member_id = obj.getInt("staff_id");
+                                ormMember.name = (obj.has("name"))?obj.getString("name"):null;
+                                ormMember.profile_image = (obj.has("profile_image"))?obj.getString("profile_image"):null;
+                                ormMember.designation = (obj.has("designation"))?obj.getString("designation"):null;
+                                ormMember.address = (obj.has("address"))?obj.getString("address"):null;
+                                ormMember.email = (obj.has("email1"))?obj.getString("email1"):null;
+                                ormMember.phone = (obj.has("phone1"))?obj.getString("phone1"):null;
+                                ormMember.display_order = obj.getInt("display_order");
+                                ormMember.save();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -360,7 +364,7 @@ public class MFunction {
         });
 
         // Adding request to request queue
-        AppController.getInstance().addToRequestQueue(faqReq);
+        AppController.getInstance().addToRequestQueue(memberReq);
     }
 
     /* Fetch News without showing circular progress bar*/

@@ -36,9 +36,11 @@
     <!-- Phone -->
     <TextView
         android:id="@+id/phone"
+        android:drawableLeft="@drawable/ic_vector_phone"
+        android:background="@android:color/holo_green_light"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="10 day"
+        android:text=""
         android:layout_below="@id/thumbnail"
         android:layout_marginTop="5dp"
         android:layout_toLeftOf="@+id/designation"

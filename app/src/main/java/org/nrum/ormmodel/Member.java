@@ -60,7 +60,7 @@ public class Member extends Model {
 
     //retrieve all items
     public static List<Member> getAllMember() {
-        List<Member> result = new Select().from(News.class).orderBy("display_order DESC").execute();
+        List<Member> result = new Select().from(Member.class).orderBy("display_order DESC").execute();
         return result;
     }
 

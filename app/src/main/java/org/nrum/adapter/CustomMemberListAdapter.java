@@ -66,22 +66,28 @@ public class CustomMemberListAdapter extends BaseAdapter {
         TextView phone          = (TextView) convertView.findViewById(R.id.phone);
         // getting news data for the row
         Member m = memberItems.get(position);
-        // thumbnail image
-        thumbNail.setImageUrl(Constant.UPLOAD_PATH_MEMBER+ "/100_".concat(m.getProfileImage()), imageLoader);
-        // title
+        // name
         String mName = m.getName();
         if(mName !=null && mName.length()> 50) {
             mName = TextUtils.substring(m.getName(),0,50).concat("...");
         }
-        name.setText(mName);
-        //detail
+        //designation
         String mDesignation = m.getDesignation();
         if (mDesignation !=null && mDesignation.length()>100) {
             mDesignation = TextUtils.substring(m.getDesignation(),0,100).concat("...");
         }
+
+        //address
+        String mAddress = m.getAddress();
+        if (mAddress !=null && mAddress.length()>100) {
+            mAddress = TextUtils.substring(m.getAddress(),0,100).concat("...");
+        }
+
+        // thumbnail image
+        thumbNail.setImageUrl(Constant.UPLOAD_PATH_MEMBER+ "/100_".concat(m.getProfileImage()), imageLoader);
         name.setText(m.getName());
         designation.setText(mDesignation);
-        address.setText(m.getAddress());
+        address.setText(mAddress);
         phone.setText(m.getPhone());
         return convertView;
     }

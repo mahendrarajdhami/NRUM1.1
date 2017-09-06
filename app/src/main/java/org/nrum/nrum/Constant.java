@@ -24,7 +24,7 @@ public class Constant {
     public static final String UPLOAD_PATH_NEWS = UPLOAD_PATH + "/company_1/news";
     public static final String UPLOAD_PATH_PAGE = UPLOAD_PATH + "/company_1/page";
     public static final String UPLOAD_PATH_POST = UPLOAD_PATH + "/company_1/posts";
-    public static final String UPLOAD_PATH_MEMBER = UPLOAD_PATH + "/company_1/member";
+    public static final String UPLOAD_PATH_MEMBER = UPLOAD_PATH + "/company_1/staff";
 
     public static final int BANNER_TRANSITION_DURATION = 5000;
     public static final int NOTICE_BUTTON_BLINK_DURATION = 5000;
