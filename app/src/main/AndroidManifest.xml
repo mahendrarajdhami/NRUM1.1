@@ -34,6 +34,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -148,10 +149,11 @@
             android:configChanges="layoutDirection|locale"
             android:label="@string/title_activity_faq_list"
             android:parentActivityName=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.nrum.nrum.MainActivity" />
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="org.nrum.nrum.MainActivity" />
 
         <activity
             android:name=".FaqDetailActivity"
@@ -163,5 +165,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.nrum.nrum.FaqListActivity" />
         </activity>
+        <activity
+            android:name=".MemberListActivity"
+            android:label="@string/title_activity_member_list"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="org.nrum.nrum.MainActivity" />
+        </activity>
     </application>
+
 </manifest>

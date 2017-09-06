@@ -80,11 +80,11 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         currentLangID = sharedPreferences.getString("lang_list", "1");
 
-        if(MFunction.isInternetAvailable(getApplicationContext())) {
+        /*if(MFunction.isInternetAvailable(getApplicationContext())) {
             MFunction.fetchAllData();
         } else {
             Toast.makeText(MainActivity.this,getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
-        }
+        }*/
         setNoticeText(currentLangID);
         setSlider(currentLangID);
     }
@@ -190,6 +190,11 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
                 break;
             }
+            case R.id.nav_member :{
+                Intent intent = new Intent(MainActivity.this,MemberListActivity.class);
+                startActivity(intent);
+                break;
+            }
             case R.id.nav_gallery :{
                 Toast.makeText(MainActivity.this, R.string.under_construction, Toast.LENGTH_SHORT).show();
                 break;
@@ -236,9 +241,9 @@ public class MainActivity extends AppCompatActivity
         startActivity(intent);
     }
 
-    public void openDocList(View view)
+    public void openMemberList(View view)
     {
-        Intent intent = new Intent(MainActivity.this, NewsListActivity.class);
+        Intent intent = new Intent(MainActivity.this, MemberListActivity.class);
         startActivity(intent);
     }
 

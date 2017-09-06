@@ -11,7 +11,7 @@ public class Constant {
     //public static final String SERVER = "http://192.168.0.100/bs.dev/nrum";
 //    public static final String SERVER = "http://192.168.100.2/bs.dev/nrum";
     public static final String API_END = SERVER + "/dataProvider";
-    public static final String NEWS_API = API_END + "/newsApi/lists";
+    public static final String NEWS_API = API_END + "/newsApi/lists"+API_ID_ACCESS_TOKEN_STRING;
     public static final String BANNER_API = API_END + "/bannerApi/lists"+API_ID_ACCESS_TOKEN_STRING;
     public static final String NOTICE_API = API_END + "/noticeApi/lists"+API_ID_ACCESS_TOKEN_STRING;
     public static final String PAGE_API = API_END + "/pageApi/lists"+API_ID_ACCESS_TOKEN_STRING;
@@ -23,6 +23,7 @@ public class Constant {
     public static final String UPLOAD_PATH_NEWS = UPLOAD_PATH + "/company_1/news";
     public static final String UPLOAD_PATH_PAGE = UPLOAD_PATH + "/company_1/page";
     public static final String UPLOAD_PATH_POST = UPLOAD_PATH + "/company_1/posts";
+    public static final String UPLOAD_PATH_MEMBER = UPLOAD_PATH + "/company_1/member";
 
     public static final int BANNER_TRANSITION_DURATION = 5000;
     public static final int NOTICE_BUTTON_BLINK_DURATION = 5000;

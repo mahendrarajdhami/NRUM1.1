@@ -135,4 +135,7 @@
     <string name="dmenu_faq">FAQ</string>
     <string name="title_activity_faq_list">FAQ</string>
     <string name="title_activity_faq_detail">FAQ Detail</string>
+    <string name="ic_members_24dp">Board</string>
+    <string name="title_activity_member_list">Board Members</string>
+    <string name="dmenu_member">Board Members</string>
 </resources>
