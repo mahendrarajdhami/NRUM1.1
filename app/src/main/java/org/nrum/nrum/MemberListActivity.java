@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Cache;
@@ -62,7 +60,8 @@ public class MemberListActivity extends AppCompatActivity implements SwipeRefres
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                TextView phone = (TextView) (findViewById(R.id.phone));
+                /*Now this is not called because button is present in list item and it override it*/
+                /*TextView phone = (TextView) (findViewById(R.id.phone));
                 if (phone != null) {
                     final String phoneNumber = phone.getText().toString();
                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
@@ -71,7 +70,7 @@ public class MemberListActivity extends AppCompatActivity implements SwipeRefres
                     } catch (android.content.ActivityNotFoundException ex) {
                         Toast.makeText(MemberListActivity.this, "Could not find an activity to place the call.", Toast.LENGTH_SHORT).show();
                     }
-                }
+                }*/
             }
         });
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -117,20 +116,16 @@ public class MemberListActivity extends AppCompatActivity implements SwipeRefres
     }
 
     public void makeCall(View view) {
-        Button b = (Button) view;
-        String notice = b.getText().toString();
-        final Toast noticeToast = Toast.makeText(MemberListActivity.this, notice, Toast.LENGTH_LONG);
-        noticeToast.show();
-        new CountDownTimer(5, 1000) {
-            public void onTick(long millisUntilFinished) {
-                noticeToast.show();
+        Button phone = (Button) (findViewById(R.id.phone));
+        if (phone != null) {
+            final String phoneNumber = phone.getText().toString();
+            Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
+            try {
+                startActivity(intent);
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(MemberListActivity.this, "Could not find an activity to place the call.", Toast.LENGTH_SHORT).show();
             }
-
-            public void onFinish() {
-                noticeToast.show();
-            }
-
-        }.start();
+        }
     }
 
     private void setMember(String currentLangID) {

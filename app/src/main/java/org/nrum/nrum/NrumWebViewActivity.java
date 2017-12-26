@@ -3,7 +3,9 @@ package org.nrum.nrum;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -24,7 +26,12 @@ public class NrumWebViewActivity extends AppCompatActivity {
     private class MyWebViewClient extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            view.loadUrl(url);
+            if( url.startsWith("http:") || url.startsWith("https:") ) {
+                return false;
+            }
+            // Otherwise allow the OS to handle things like tel, mailto, etc.
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            startActivity( intent );
             return true;
         }
 

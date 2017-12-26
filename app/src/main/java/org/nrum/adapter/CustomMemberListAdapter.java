@@ -84,6 +84,7 @@ public class CustomMemberListAdapter extends BaseAdapter {
         }
 
         // thumbnail image
+        thumbNail.setDefaultImageResId(R.drawable.ic_staffs);
         thumbNail.setImageUrl(Constant.UPLOAD_PATH_MEMBER+ "/100_".concat(m.getProfileImage()), imageLoader);
         name.setText(m.getName());
         designation.setText(mDesignation);

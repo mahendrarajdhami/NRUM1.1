@@ -34,7 +34,7 @@
         android:textSize="@dimen/rating" />
 
     <!-- Phone -->
-    <TextView
+    <!--<TextView
         android:id="@+id/phone"
         android:drawableLeft="@drawable/ic_vector_phone"
         android:background="@android:color/holo_green_light"
@@ -45,7 +45,22 @@
         android:layout_marginTop="5dp"
         android:layout_toLeftOf="@+id/designation"
         android:textColor="@color/time_before"
-        android:textSize="@dimen/time_before" />
+        android:textSize="@dimen/time_before" />-->
+    <Button
+        android:id="@+id/phone"
+        android:drawableLeft="@drawable/ic_vector_phone"
+        android:backgroundTint="@color/colorActionBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_below="@id/thumbnail"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@+id/designation"
+        android:textColor="@color/time_before"
+        android:textSize="@dimen/time_before"
+        android:gravity="left"
+        android:onClick="makeCall"
+        android:text="9808350855" />
 
     <!-- Address -->
     <TextView

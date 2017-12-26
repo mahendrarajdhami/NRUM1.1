@@ -97,8 +97,7 @@ public class NewsDetailActivity extends AppCompatActivity {
             case R.id.action_share: {
                 Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
                 sharingIntent.setType("text/plain");
-                String shareBodyText = "";
-                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Subject here");
+                String shareBodyText = "This is static content.";
                 sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBodyText);
                 startActivity(Intent.createChooser(sharingIntent, "Shearing Option"));
                 return true;
