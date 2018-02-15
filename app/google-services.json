@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "891142423918",
-    "project_id": "firebase-nrum"
+    "firebase_url": "https://fir-nrum.firebaseio.com",
+    "project_id": "firebase-nrum",
+    "storage_bucket": "firebase-nrum.appspot.com"
   },
   "client": [
     {
@@ -13,11 +15,23 @@
       },
       "oauth_client": [
         {
+          "client_id": "891142423918-i8e1aprht300oj9buij4ll5sp3v4spo8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.nrum.nrum",
+            "certificate_hash": "3fbe8e02140ae30e589fc680515747f334b3604a"
+          }
+        },
+        {
+          "client_id": "891142423918-hap9p44pv5ttk575m4ktbk6gs6lcech6.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
           "client_id": "891142423918-k0s1imhhat7ckgi2333d1k7nf05oeigc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "org.nrum.nrum",
-            "certificate_hash": "DA39A3EE5E6B4B0D3255BFEF95601890AFD80709"
+            "certificate_hash": "da39a3ee5e6b4b0d3255bfef95601890afd80709"
           }
         },
         {
@@ -35,11 +49,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "891142423918-hap9p44pv5ttk575m4ktbk6gs6lcech6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

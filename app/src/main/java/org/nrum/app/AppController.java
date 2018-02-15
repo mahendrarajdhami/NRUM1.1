@@ -11,6 +11,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.nrum.util.LruBitmapCache;
 
@@ -26,6 +27,7 @@ public class AppController extends Application {
     private static AppController mInstance;
     private Locale locale = null;
     private String lang = null;
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig)
@@ -69,6 +71,8 @@ public class AppController extends Application {
             config.locale = locale;
             getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         }
+
+
     }
 
     public static synchronized AppController getInstance() {

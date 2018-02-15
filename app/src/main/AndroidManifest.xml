@@ -57,7 +57,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.nrum.nrum.MainActivity" />
         </activity>
-        <activity
+        <!--<activity
             android:name=".SignInActivity"
             android:configChanges="layoutDirection|locale"
             android:label="SignIn"
@@ -66,7 +66,7 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.nrum.nrum.MainActivity" />
-        </activity>
+        </activity>-->
         <!--
      ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
