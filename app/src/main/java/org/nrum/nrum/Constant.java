@@ -35,4 +35,8 @@ public class Constant {
     public static final String  CURRENT_LANG_ID_3 = "3";
     //page_id
     public static final int  PAGE_ID_ABOUT = 1;
+
+    /*For Encryption*/
+    public static final String  PREFERENCE_NAME = "deltatech-preference";
+    public static final String  PREFERENCE_ENCRYPT_KEY = "deltatech_demo";
 }

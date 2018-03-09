@@ -458,4 +458,16 @@ public class MFunction {
         // Adding request to request queue
         AppController.getInstance().addToRequestQueue(postReq);
     }
+
+     /*Get preference values*/
+    public static String getMyPrefVal(String key, Context context){
+        SecurePreferences preferences = new SecurePreferences(context, Constant.PREFERENCE_NAME, Constant.PREFERENCE_ENCRYPT_KEY, true);
+        return preferences.getString(key);
+    }
+
+    /*Set preference values*/
+    public static void  putMyPrefVal(String key, String val, Context context){
+        SecurePreferences preferences = new SecurePreferences(context, Constant.PREFERENCE_NAME, Constant.PREFERENCE_ENCRYPT_KEY, true);
+        preferences.put(key,val);
+    }
 }
