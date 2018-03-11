@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://D:\Android\Projects\NRUM1.1\NRUM.iml" filepath="D:\Android\Projects\NRUM1.1\NRUM.iml" />
       <module fileurl="file://$PROJECT_DIR$/NRUM1.1.iml" filepath="$PROJECT_DIR$/NRUM1.1.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

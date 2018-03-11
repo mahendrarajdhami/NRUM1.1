@@ -138,4 +138,7 @@
     <string name="ic_members_24dp">Board</string>
     <string name="title_activity_member_list">Board Members</string>
     <string name="dmenu_member">Board Members</string>
+
+    <!--Ad-->
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
 </resources>

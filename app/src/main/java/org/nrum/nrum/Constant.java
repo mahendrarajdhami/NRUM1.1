@@ -27,7 +27,7 @@ public class Constant {
     public static final String UPLOAD_PATH_MEMBER = UPLOAD_PATH + "/company_1/staff";
 
     public static final int BANNER_TRANSITION_DURATION = 5000;
-    public static final int NOTICE_BUTTON_BLINK_DURATION = 5000;
+    public static final int NOTICE_BUTTON_BLINK_DURATION = 500;
     public static final int LIMIT_BANNER_FETCH = 3;
     public static final int LIMIT_MAIN_NEWS_FETCH =4;
 

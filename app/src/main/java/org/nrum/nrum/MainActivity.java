@@ -26,6 +26,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,15 +35,17 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.daimajia.slider.library.Animations.DescriptionAnimation;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.SliderTypes.TextSliderView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -79,10 +82,34 @@ public class MainActivity extends AppCompatActivity
     private static final int RC_SIGN_IN = 9001;
     private GoogleSignInClient mGoogleSignInClient;
 
+    private NavigationView navigationView;
+
+    private TextView userName;
+    private TextView userEmail;
+    private Button signInBtn;
+    private Button signOutBtn;
+
+    public NetworkImageView nIV;
+    private AdView mAdView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+
+        userName  = (TextView)header.findViewById(R.id.userName);
+        userEmail = (TextView)header.findViewById(R.id.userEmail);
+
+        signInBtn  = (Button) findViewById(R.id.nav_signin);
+        signOutBtn = (Button) findViewById(R.id.nav_signout);
+        nIV = (NetworkImageView) header.findViewById(R.id.userImage);
+
+        mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -104,8 +131,6 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         setTitle(R.string.app_name);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
 
         /*For Tab Layout*/
         viewPager = (android.support.v4.view.ViewPager) findViewById(R.id.viewpager);
@@ -114,14 +139,9 @@ public class MainActivity extends AppCompatActivity
         tabLayout.setupWithViewPager(viewPager);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         currentLangID = sharedPreferences.getString("lang_list", "1");
-
-        /*if(MFunction.isInternetAvailable(getApplicationContext())) {
-            MFunction.fetchAllData();
-        } else {
-            Toast.makeText(MainActivity.this,getString(R.string.no_internet_connection), Toast.LENGTH_LONG).show();
-        }*/
         setNoticeText(currentLangID);
         setSlider(currentLangID);
+        manageUI(isLogin());
     }
 
     @Override
@@ -132,7 +152,22 @@ public class MainActivity extends AppCompatActivity
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                updateUI(account);
+                if(account != null){
+
+                    nIV.setImageUrl(account.getPhotoUrl().toString(),AppController.getInstance().getImageLoader());
+                    nIV.setDefaultImageResId(R.drawable.nrum_logo);
+                    nIV.setErrorImageResId(R.drawable.nrum_logo);
+                    MFunction.putMyPrefVal("userImage",account.getPhotoUrl().toString(),getApplicationContext());
+                    MFunction.putMyPrefVal("userName",account.getDisplayName(),getApplicationContext());
+                    MFunction.putMyPrefVal("userEmail",account.getEmail(),getApplicationContext());
+
+                    userName.setText(MFunction.getMyPrefVal("userName",getApplicationContext()));
+                    userEmail.setText(MFunction.getMyPrefVal("userEmail",getApplicationContext()));
+                    navigationView.getMenu().findItem(R.id.nav_signin).setVisible(false);
+                    navigationView.getMenu().findItem(R.id.nav_member).setVisible(true);
+                    navigationView.getMenu().findItem(R.id.nav_signout).setVisible(true);
+
+                }
             } catch (ApiException e) {
                 Log.w(TAG, "Google sign in failed", e);
             }
@@ -266,10 +301,6 @@ public class MainActivity extends AppCompatActivity
             }
 
             case R.id.nav_wordbank :{
-                /*Log.d(msg, "nav_signin Menu is clicked");
-                Intent intent = new Intent(MainActivity.this,SignInActivity.class);
-                startActivity(intent);*/
-                Toast.makeText(MainActivity.this,R.string.under_construction, Toast.LENGTH_SHORT).show();
                 break;
             }
             case R.id.nav_settings :{
@@ -279,6 +310,10 @@ public class MainActivity extends AppCompatActivity
             }
             case R.id.nav_signin :{
                 signIn();
+                break;
+            }
+            case R.id.nav_signout :{
+                signOut();
                 break;
             }
         }
@@ -302,8 +337,12 @@ public class MainActivity extends AppCompatActivity
 
     public void openMemberList(View view)
     {
-        Intent intent = new Intent(MainActivity.this, MemberListActivity.class);
-        startActivity(intent);
+        if(isLogin()) {
+            Intent intent = new Intent(MainActivity.this, MemberListActivity.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Please Sign In First!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void showNotification(View view){
@@ -330,11 +369,13 @@ public class MainActivity extends AppCompatActivity
             JSONObject objDetail = MFunction.jsonStrToObj(latestNotice.detail);
             mTitle = MFunction.getFormatedString(objTitle,"notice_title", currentLangID,80);
             mDetail = MFunction.getFormatedString(objDetail,"detail", currentLangID);
-            Animation mAnimation = new AlphaAnimation(1, 0);
+
+            Animation mAnimation = new AlphaAnimation(1, 0.5f);
             mAnimation.setDuration(Constant.NOTICE_BUTTON_BLINK_DURATION);
             mAnimation.setInterpolator(new LinearInterpolator());
             mAnimation.setRepeatCount(Animation.INFINITE);
             mAnimation.setRepeatMode(Animation.REVERSE);
+
             noticeButton.startAnimation(mAnimation);
             if(mTitle != null) {
                 noticeButton.setText(mTitle);
@@ -416,86 +457,35 @@ public class MainActivity extends AppCompatActivity
         preferences.clear();
         finish();
         startActivity(getIntent());
-        /*mAuth.signOut();
-
-        mGoogleSignInClient.signOut().addOnCompleteListener(this,
-                new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        //updateUI(null);
-                    }
-                });*/
     }
 
+    private  boolean isLogin(){
+        boolean isLogin = false;
+        String userEmail = MFunction.getMyPrefVal("userEmail",getApplicationContext());
 
-    private void updateUI(GoogleSignInAccount account) {
-        com.android.volley.toolbox.ImageLoader imageLoader = AppController.getInstance().getImageLoader();
-        //hideProgressDialog();
-        if (account != null) {
-            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-            navigationView.setNavigationItemSelectedListener(this);
-            View header = navigationView.getHeaderView(0);
-
-            //ImageView userImage = (ImageView) header.findViewById(R.id.userImage);
-            NetworkImageView userImage = (NetworkImageView) findViewById(R.id.userImage);
-            TextView userName = (TextView)header.findViewById(R.id.userName);
-            TextView userEmail = (TextView)header.findViewById(R.id.userEmail);
-            userName.setText(account.getDisplayName());
-            userEmail.setText(account.getEmail());
-            userImage.setImageUrl(account.getPhotoUrl().toString(),imageLoader);
-
-            MFunction.putMyPrefVal("userImage",account.getPhotoUrl().toString(),getApplicationContext());
-            MFunction.putMyPrefVal("userName",account.getDisplayName(),getApplicationContext());
-            MFunction.putMyPrefVal("userEmail",account.getEmail(),getApplicationContext());
-
-
-            //findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            //findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
+        if(TextUtils.isEmpty(userEmail)) {
+            isLogin = false;
         } else {
-            /*mStatusTextView.setText(R.string.signed_out);
-            mDetailTextView.setText(null);
-
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);*/
+            isLogin = true;
         }
+        return isLogin;
     }
 
-    private void updateUI(FirebaseUser user) {
-        //hideProgressDialog();
-        if (user != null) {
-            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-            navigationView.setNavigationItemSelectedListener(this);
-            View header = navigationView.getHeaderView(0);
+    private void manageUI(boolean isLogin){
+        nIV.setDefaultImageResId(R.drawable.nrum_logo);
+        nIV.setErrorImageResId(R.drawable.nrum_logo);
+        if(isLogin) {
+            nIV.setImageUrl(MFunction.getMyPrefVal("userImage",getApplicationContext()),AppController.getInstance().getImageLoader());
+            userName.setText(MFunction.getMyPrefVal("userName",getApplicationContext()));
+            userEmail.setText(MFunction.getMyPrefVal("userEmail",getApplicationContext()));
 
-            ImageView userImage = (ImageView) header.findViewById(R.id.userImage);
-            TextView userName = (TextView)header.findViewById(R.id.userName);
-            TextView userEmail = (TextView)header.findViewById(R.id.userEmail);
-            userName.setText(user.getDisplayName());
-            userEmail.setText(user.getEmail());
-
-            //findViewById(R.id.sign_in_button).setVisibility(View.GONE);
-            //findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
+            navigationView.getMenu().findItem(R.id.nav_signin).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_member).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_signout).setVisible(true);
         } else {
-            /*mStatusTextView.setText(R.string.signed_out);
-            mDetailTextView.setText(null);
-
-            findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);*/
+            navigationView.getMenu().findItem(R.id.nav_signin).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_member).setVisible(false);
+            navigationView.getMenu().findItem(R.id.nav_signout).setVisible(false);
         }
-    }
-
-    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        /*AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
-                        } else {
-                        }
-                    }
-                });*/
     }
 }

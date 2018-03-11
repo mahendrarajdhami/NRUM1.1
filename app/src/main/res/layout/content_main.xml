@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -35,12 +36,12 @@
             android:id="@+id/noticeButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_notification"
             android:backgroundTint="@color/colorPrimaryDark"
-            android:textStyle="bold"
+            android:drawableLeft="@drawable/ic_notification"
             android:gravity="left"
+            android:hint="Recent Notice"
             android:onClick="showNotification"
-            android:text="This is to notify all members to participate in Picnic Program." />
+            android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -49,7 +50,9 @@
         android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true">
 
         <Button android:id="@+id/btnAbout"
             android:layout_below="@+id/ButtonAlert"
@@ -101,20 +104,32 @@
         android:paddingTop="10dp"
         android:layout_below="@+id/buttonGroup"
         android:background="@color/list_divider"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
     <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/viewpager"
         android:layout_below="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:id="@+id/fragmentContainer">
     </LinearLayout>
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        ads:adSize="SMART_BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id">
+    </com.google.android.gms.ads.AdView>
 
 </RelativeLayout>
 
